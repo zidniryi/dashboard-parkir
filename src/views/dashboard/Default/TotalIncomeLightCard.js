@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 
 // material-ui
-import { useTheme, styled } from '@mui/material/styles';
-import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
+import {useTheme, styled} from '@mui/material/styles';
+import {Avatar, Box, List, ListItem, ListItemAvatar, ListItemText, Typography} from '@mui/material';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -12,7 +12,7 @@ import TotalIncomeCard from 'ui-component/cards/Skeleton/TotalIncomeCard';
 import StorefrontTwoToneIcon from '@mui/icons-material/StorefrontTwoTone';
 
 // styles
-const CardWrapper = styled(MainCard)(({ theme }) => ({
+const CardWrapper = styled(MainCard)(({theme}) => ({
   overflow: 'hidden',
   position: 'relative',
   '&:after': {
@@ -39,7 +39,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 // ==============================|| DASHBOARD - TOTAL INCOME LIGHT CARD ||============================== //
 
-const TotalIncomeLightCard = ({ isLoading }) => {
+const TotalIncomeLightCard = ({isLoading}) => {
   const theme = useTheme();
 
   return (
@@ -48,9 +48,9 @@ const TotalIncomeLightCard = ({ isLoading }) => {
         <TotalIncomeCard />
       ) : (
         <CardWrapper border={false} content={false}>
-          <Box sx={{ p: 2 }}>
-            <List sx={{ py: 0 }}>
-              <ListItem alignItems="center" disableGutters sx={{ py: 0 }}>
+          <Box sx={{p: 2}}>
+            <List sx={{py: 0}}>
+              <ListItem alignItems="center" disableGutters sx={{py: 0}}>
                 <ListItemAvatar>
                   <Avatar
                     variant="rounded"
@@ -79,7 +79,7 @@ const TotalIncomeLightCard = ({ isLoading }) => {
                         mt: 0.5
                       }}
                     >
-                      Total Income
+                      Total Semua Pendapatan
                     </Typography>
                   }
                 />

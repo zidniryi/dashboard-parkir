@@ -15,18 +15,18 @@ const clients = {
   type: 'group',
   children: [
     {
-      id: 'authentication',
+      id: 'clients',
       title: 'Clients',
       type: 'collapse',
       icon: icons.IconListNumbers,
 
       children: [
         {
-          id: 'login3',
+          id: 'clients1',
           title: 'List Client',
           type: 'item',
-          url: '/clients/login/login3',
-          target: true
+          url: '/clients/list-clients',
+          target: false
         }
       ]
     }

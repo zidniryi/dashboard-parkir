@@ -18,6 +18,10 @@ const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons
 const ParkingRates = Loadable(lazy(() => import('views/settings/parking-rates/ParkingRates')));
 const FineRates = Loadable(lazy(() => import('views/settings/fine-rates/FineRates')));
 
+// Clients
+const ListClient = Loadable(lazy(() => import('views/clients/list-clients/ListClient')));
+const AddClient = Loadable(lazy(() => import('views/clients/add-clients/AddClient')));
+
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 
@@ -100,6 +104,24 @@ const MainRoutes = {
         {
           path: 'fine-rates',
           element: <FineRates />
+        }
+      ]
+    },
+    {
+      path: 'clients',
+      children: [
+        {
+          path: 'list-clients',
+          element: <ListClient />
+        }
+      ]
+    },
+    {
+      path: 'clients',
+      children: [
+        {
+          path: 'add-client',
+          element: <AddClient />
         }
       ]
     },
