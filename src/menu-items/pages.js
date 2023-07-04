@@ -1,36 +1,43 @@
 // assets
-import { IconKey } from '@tabler/icons';
+import { IconMoneybag} from '@tabler/icons';
 
 // constant
 const icons = {
-  IconKey
+  IconMoneybag
 };
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
 const pages = {
   id: 'pages',
-  title: 'Pages',
-  caption: 'Pages Caption',
+  title: 'Transaksi',
+  caption: 'Transaksi Parkir',
   type: 'group',
   children: [
     {
       id: 'authentication',
-      title: 'Authentication',
+      title: 'Transaksi',
       type: 'collapse',
-      icon: icons.IconKey,
+      icon: icons.IconMoneybag,
 
       children: [
         {
           id: 'login3',
-          title: 'Login',
+          title: 'Manual Mix',
           type: 'item',
           url: '/pages/login/login3',
           target: true
         },
         {
           id: 'register3',
-          title: 'Register',
+          title: 'Pembatalan Transaksi',
+          type: 'item',
+          url: '/pages/register/register3',
+          target: true
+        },
+        {
+          id: 'register3',
+          title: 'Gatei',
           type: 'item',
           url: '/pages/register/register3',
           target: true

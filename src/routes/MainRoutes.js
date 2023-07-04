@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import {lazy} from 'react';
 
 // project imports
 import MainLayout from 'layout/MainLayout';
@@ -13,6 +13,10 @@ const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
 const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
 const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
 const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
+
+// Setting
+const ParkingRates = Loadable(lazy(() => import('views/settings/parking-rates/ParkingRates')));
+const FineRates = Loadable(lazy(() => import('views/settings/fine-rates/FineRates')));
 
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
@@ -78,6 +82,24 @@ const MainRoutes = {
         {
           path: 'material-icons',
           element: <UtilsMaterialIcons />
+        }
+      ]
+    },
+    {
+      path: 'settings',
+      children: [
+        {
+          path: 'parking-rates',
+          element: <ParkingRates />
+        }
+      ]
+    },
+    {
+      path: 'settings',
+      children: [
+        {
+          path: 'fine-rates',
+          element: <FineRates />
         }
       ]
     },
