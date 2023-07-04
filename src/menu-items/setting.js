@@ -36,17 +36,10 @@ const settings = {
           target: false
         },
         {
-          id: 'settings2',
-          title: 'Billabel',
-          type: 'item',
-          url: 'settings/fine-rates',
-          target: false
-        },
-        {
-          id: 'settings2',
+          id: 'settings3',
           title: 'Membership',
           type: 'item',
-          url: 'settings/fine-rates',
+          url: 'settings/membership',
           target: false
         }
       ]

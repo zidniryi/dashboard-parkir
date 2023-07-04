@@ -14,9 +14,13 @@ const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
 const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
 const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
 
+// Transaction
+const ManualMix = Loadable(lazy(() => import('views/transaction/manual-mix/MahualMix')));
+
 // Setting
 const ParkingRates = Loadable(lazy(() => import('views/settings/parking-rates/ParkingRates')));
 const FineRates = Loadable(lazy(() => import('views/settings/fine-rates/FineRates')));
+const Membership = Loadable(lazy(() => import('views/settings/membership/Membership')));
 
 // Clients
 const ListClient = Loadable(lazy(() => import('views/clients/list-clients/ListClient')));
@@ -90,6 +94,15 @@ const MainRoutes = {
       ]
     },
     {
+      path: 'transaction',
+      children: [
+        {
+          path: 'manualmix',
+          element: <ManualMix />
+        }
+      ]
+    },
+    {
       path: 'settings',
       children: [
         {
@@ -104,6 +117,15 @@ const MainRoutes = {
         {
           path: 'fine-rates',
           element: <FineRates />
+        }
+      ]
+    },
+    {
+      path: 'settings',
+      children: [
+        {
+          path: 'membership',
+          element: <Membership />
         }
       ]
     },

@@ -1,7 +1,8 @@
 import clients from './clients';
 import dashboard from './dashboard';
-import pages from './pages';
+import transaction from './transaction';
 import settings from './setting';
+
 // import utilities from './utilities';
 // import other from './other';
 
@@ -12,7 +13,7 @@ import settings from './setting';
 // };
 
 const menuItems = {
-  items: [dashboard, pages, settings, clients]
+  items: [dashboard, transaction, settings, clients]
 };
 
 export default menuItems;
