@@ -26,21 +26,21 @@ const transaction = {
           title: 'Manual Mix',
           type: 'item',
           url: '/transaction/manualmix',
-          target: true
+          target: false
         },
         {
-          id: 'register3',
+          id: 'transaction2',
           title: 'Pembatalan Transaksi',
           type: 'item',
           url: '/transaction/register/register3',
-          target: true
+          target: false
         },
         {
-          id: 'register3',
+          id: 'transaction3',
           title: 'Gate',
           type: 'item',
-          url: '/transaction/register/register3',
-          target: true
+          url: '/transaction/gate',
+          target: false
         }
       ]
     }

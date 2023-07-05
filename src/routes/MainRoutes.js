@@ -16,6 +16,7 @@ const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons
 
 // Transaction
 const ManualMix = Loadable(lazy(() => import('views/transaction/manual-mix/MahualMix')));
+const Gate = Loadable(lazy(() => import('views/transaction/gate/Gate')));
 
 // Setting
 const ParkingRates = Loadable(lazy(() => import('views/settings/parking-rates/ParkingRates')));
@@ -99,6 +100,15 @@ const MainRoutes = {
         {
           path: 'manualmix',
           element: <ManualMix />
+        }
+      ]
+    },
+    {
+      path: 'transaction',
+      children: [
+        {
+          path: 'gate',
+          element: <Gate />
         }
       ]
     },
