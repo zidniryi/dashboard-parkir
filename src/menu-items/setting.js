@@ -41,6 +41,20 @@ const settings = {
           type: 'item',
           url: 'settings/membership',
           target: false
+        },
+        {
+          id: 'settings4',
+          title: 'Payment',
+          type: 'item',
+          url: 'settings/payment',
+          target: false
+        },
+        {
+          id: 'settings5',
+          title: 'Petugas',
+          type: 'item',
+          url: 'settings/officer',
+          target: false
         }
       ]
     }
