@@ -90,9 +90,11 @@ const Gate = () => {
                       </Button>
                     </TableCell>
                     <TableCell>
-                      <Button variant="contained" color="primary" size="small">
-                        Edit
-                      </Button>
+                      <Link to={{pathname: '/transaction/edit-gate'}} state={{item}}>
+                        <Button variant="contained" color="primary" size="small">
+                          Edit
+                        </Button>
+                      </Link>
                     </TableCell>
                     <TableCell>
                       <Button variant="contained" color="secondary" size="small">
