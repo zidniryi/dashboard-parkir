@@ -56,7 +56,7 @@ const Gate = () => {
         <CardContent>
           <div style={{marginBottom: '1rem', display: 'flex', justifyContent: 'space-between'}}>
             <TextField label="Search by Gate" value={searchTerm} onChange={handleSearch} />
-            <Link to={'/gates/add-gate'}>
+            <Link to={'/transaction/add-gate'}>
               <Button variant="contained" color="primary">
                 Add Gate
               </Button>
