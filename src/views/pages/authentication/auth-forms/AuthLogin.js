@@ -21,6 +21,7 @@ import {
 // third party
 import * as Yup from 'yup';
 import {Formik} from 'formik';
+import Swal from 'sweetalert2';
 
 // project imports
 import useScriptRef from 'hooks/useScriptRef';
@@ -46,12 +47,12 @@ const FirebaseLogin = ({...others}) => {
     setShowPassword(!showPassword);
   };
 
-  const onLoginRpc = async () => {
+  const onLoginRpc = async (values) => {
     // setloading(true);
     try {
       const loginRpc = new LoginRequest();
-      loginRpc.setUsername('ops@parking');
-      loginRpc.setPassword('123456');
+      loginRpc.setUsername(values.email);
+      loginRpc.setPassword(values.password);
       loginRpc.setRemoteip('123.234.121.232');
 
       // new Promise((resolve, reject) => {
@@ -64,19 +65,17 @@ const FirebaseLogin = ({...others}) => {
           localStorage.setItem(localKey.role, rpcLoginResponse.resultsList[0].role);
           window.location.reload();
         } else {
-          // setIsLoading(false)
-          // Swal.fire({
-          //   icon: 'error',
-          //   title: 'Error!',
-          //   text: `Something went wrong!`
-          // });
+          console.log(err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: `Something went wrong! | ${status}`
+          });
         }
       });
       // });
     } catch (err) {
-      console.log('err: ', err);
-      console.log('Hi');
-      // Swal.fire('Error!', `${err?.response?.status} Something went wrong try again`, 'danger');
+      Swal.fire('Error!', `${err?.response?.status} Something went wrong try again`, 'danger');
     }
   };
 
@@ -97,12 +96,12 @@ const FirebaseLogin = ({...others}) => {
 
       <Formik
         initialValues={{
-          email: 'info@codedthemes.com',
-          password: '123456',
+          email: '',
+          password: '',
           submit: null
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+          email: Yup.string().max(255).required('Username is required'),
           password: Yup.string().max(255).required('Password is required')
         })}
         onSubmit={async (values, {setErrors, setStatus, setSubmitting}) => {
@@ -110,8 +109,7 @@ const FirebaseLogin = ({...others}) => {
             if (scriptedRef.current) {
               setStatus({success: true});
               setSubmitting(false);
-              // localStorage.setItem(localKey.sessionid, '123456677');
-              onLoginRpc();
+              onLoginRpc(values);
             }
           } catch (err) {
             console.error(err);
@@ -129,7 +127,6 @@ const FirebaseLogin = ({...others}) => {
               <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-email-login"
-                type="email"
                 value={values.email}
                 name="email"
                 onBlur={handleBlur}

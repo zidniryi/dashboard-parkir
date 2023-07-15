@@ -26,7 +26,7 @@ const App = () => {
       const data = await response.json();
       localStorage.setItem(localKey.remoteip, data.IPv4);
     } catch (error) {
-      console.log('Error Fetch Ip', error);
+      console.log('Error Fetch Ip');
       localStorage.setItem(localKey.remoteip, '127.0.0.1');
     }
   };
