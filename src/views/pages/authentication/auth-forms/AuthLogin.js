@@ -31,6 +31,9 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import localKey from 'constant';
 
+import {LoginRequest} from '../../../../proto/webadmin_pb';
+import {service} from 'proto/service';
+
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({...others}) => {
@@ -41,6 +44,40 @@ const FirebaseLogin = ({...others}) => {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const onLoginRpc = async () => {
+    // setloading(true);
+    try {
+      const loginRpc = new LoginRequest();
+      loginRpc.setUsername('ops@parking');
+      loginRpc.setPassword('123456');
+      loginRpc.setRemoteip('123.234.121.232');
+
+      // new Promise((resolve, reject) => {
+      return service.doLogin(loginRpc, null, (err, response) => {
+        const status = response?.toObject()?.status;
+        if (status == '000') {
+          const rpcLoginResponse = response?.toObject();
+          localStorage.setItem(localKey.sessionid, rpcLoginResponse.resultsList[0].sessionid);
+          localStorage.setItem(localKey.username, rpcLoginResponse.resultsList[0].username);
+          localStorage.setItem(localKey.role, rpcLoginResponse.resultsList[0].role);
+          window.location.reload();
+        } else {
+          // setIsLoading(false)
+          // Swal.fire({
+          //   icon: 'error',
+          //   title: 'Error!',
+          //   text: `Something went wrong!`
+          // });
+        }
+      });
+      // });
+    } catch (err) {
+      console.log('err: ', err);
+      console.log('Hi');
+      // Swal.fire('Error!', `${err?.response?.status} Something went wrong try again`, 'danger');
+    }
   };
 
   const handleMouseDownPassword = (event) => {
@@ -73,8 +110,8 @@ const FirebaseLogin = ({...others}) => {
             if (scriptedRef.current) {
               setStatus({success: true});
               setSubmitting(false);
-              localStorage.setItem(localKey.sessionid, '123456677');
-              window.location.reload();
+              // localStorage.setItem(localKey.sessionid, '123456677');
+              onLoginRpc();
             }
           } catch (err) {
             console.error(err);

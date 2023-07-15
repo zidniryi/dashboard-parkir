@@ -13,21 +13,26 @@ import themes from 'themes';
 // project imports
 import NavigationScroll from 'layout/NavigationScroll';
 import {useEffect} from 'react';
+import localKey from 'constant';
 
 // ==============================|| APP ||============================== //
 
 const App = () => {
   const customization = useSelector((state) => state.customization);
 
-  // const getIp = async () => {
-  //   const response = await fetch('https://geolocation-db.com/json/');
-  //   const data = await response.json();
-
-  //   // alert(data.IPv4);
-  // };
-  // useEffect(() => {
-  //   getIp();
-  // }, []);
+  const getIp = async () => {
+    try {
+      const response = await fetch('https://geolocation-db.com/json/');
+      const data = await response.json();
+      localStorage.setItem(localKey.remoteip, data.IPv4);
+    } catch (error) {
+      console.log('Error Fetch Ip', error);
+      localStorage.setItem(localKey.remoteip, '127.0.0.1');
+    }
+  };
+  useEffect(() => {
+    getIp();
+  }, []);
 
   return (
     <StyledEngineProvider injectFirst>
