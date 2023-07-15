@@ -1,0 +1,1437 @@
+syntax = "proto3";
+option go_package = ".";
+package Webadmin;
+
+// Admin Login
+message LoginRequest {
+  string remoteip = 1;
+  string username = 2;
+  string password = 3;
+}
+message LoginList {
+  string sessionid = 1;
+  string adminid = 2;
+  string username = 3;
+  string name = 4;
+  string role = 5;
+}
+message LoginResponse {
+  string status = 1;
+  repeated LoginList results = 2;
+}
+
+// Admin Logout
+message LogoutRequest {
+  string remoteip = 1;
+  string sessionid = 2;
+  string adminid = 3;
+}
+message LogoutResponse {
+  string status = 1;
+}
+
+
+// Admin Check Session
+message CheckSessionRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+}
+message CheckSessionResponse {
+  string status = 1;
+}
+
+
+// User Admin CRUD
+message AdminUserViewRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string username = 4;
+  string name = 5;
+  string role = 6;
+}
+message AdminUserViewList {
+  string adminid = 1;
+  string username = 2;
+  string name = 3;
+  string phone = 4;
+  string email = 5;
+  string role = 6;
+  string lastlogin = 7;
+  bool isactive = 8;
+}
+message AdminUserViewResponse {
+  string status = 1;
+  repeated AdminUserViewList results = 2;
+}
+
+message AdminUserAddRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string username = 4;
+  string name = 5;
+  string phone = 6;
+  string email = 7;
+  string role = 8;
+}
+message AdminUserAddList {
+  string adminid = 1;
+  string username = 2;
+  string password = 3;
+  string name = 4;
+  string phone = 5;
+  string email = 6;
+  string role = 7;
+}
+message AdminUserAddResponse {
+  string status = 1;
+  repeated AdminUserAddList results = 2;
+}
+
+message AdminUserEditRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string targetadminid = 4;
+  string name = 5;
+  string phone = 6;
+  string email = 7;
+  string role = 8;
+}
+message AdminUserEditList {
+  string adminid = 1;
+  string name = 2;
+  string phone = 3;
+  string email = 4;
+  string role = 5;
+}
+message AdminUserEditResponse {
+  string status = 1;
+  repeated AdminUserEditList results = 2;
+}
+
+message AdminUserResetPasswordRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string targetadminid = 4;
+}
+message AdminUserResetPasswordList {
+  string adminid = 1;
+  string password = 2;
+}
+message AdminUserResetPasswordResponse {
+  string status = 1;
+  repeated AdminUserResetPasswordList results = 2;
+}
+
+message AdminUserToggleRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string targetadminid = 4;
+}
+message AdminUserToggleResponse {
+  string status = 1;
+}
+
+message AdminUserDeleteRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string targetadminid = 4;
+}
+message AdminUserDeleteResponse {
+  string status = 1;
+}
+
+
+// User Client CRUD
+message ClientUserViewRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string username = 5;
+  string name = 6;
+  string role = 7;
+}
+message ClientUserViewList {
+  string clientid = 1;
+  string userid = 2;
+  string username = 3;
+  string name = 4;
+  string phone = 5;
+  string email = 6;
+  string role = 7;
+  string lastlogin = 8;
+  bool isactive = 9;
+}
+message ClientUserViewResponse {
+  string status = 1;
+  repeated ClientUserViewList results = 2;
+}
+
+message ClientUserAddRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string username = 5;
+  string name = 6;
+  string phone = 7;
+  string email = 8;
+  string role = 9;
+}
+message ClientUserAddList {
+  string clientid = 1;
+  string userid = 2;
+  string username = 3;
+  string password = 4;
+  string name = 5;
+  string phone = 6;
+  string email = 7;
+  string role = 8;
+}
+message ClientUserAddResponse {
+  string status = 1;
+  repeated ClientUserAddList results = 2;
+}
+
+message ClientUserEditRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string userid = 5;
+  string name = 6;
+  string phone = 7;
+  string email = 8;
+  string role = 9;
+}
+message ClientUserEditList {
+  string clientid = 1;
+  string userid = 2;
+  string name = 3;
+  string phone = 4;
+  string email = 5;
+  string role = 6;
+}
+message ClientUserEditResponse {
+  string status = 1;
+  repeated ClientUserEditList results = 2;
+}
+
+message ClientUserResetPasswordRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string userid = 5;
+}
+message ClientUserResetPasswordList {
+  string clientid = 1;
+  string userid = 2;
+  string password = 3;
+}
+message ClientUserResetPasswordResponse {
+  string status = 1;
+  repeated ClientUserResetPasswordList results = 2;
+}
+
+message ClientUserToggleRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string userid = 5;
+}
+message ClientUserToggleResponse {
+  string status = 1;
+}
+
+message ClientUserDeleteRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string userid = 5;
+}
+message ClientUserDeleteResponse {
+  string status = 1;
+}
+
+
+// Client CRUD
+message ClientViewRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string name = 5;
+  string city = 6;
+  string province = 7;
+  string country = 8;
+}
+message ClientViewList {
+  string clientid = 1;
+  string name = 2;
+  string address = 3;
+  string city = 4;
+  string province = 5;
+  string zipcode = 6;
+  string country = 7;
+  double totalplace = 8;
+  bool isactive = 9;
+}
+message ClientViewResponse {
+  string status = 1;
+  repeated ClientViewList results = 2;
+}
+
+message ClientAddRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string name = 4;
+  string address = 5;
+  string city = 6;
+  string province = 7;
+  string zipcode = 8;
+  string country = 9;
+}
+message ClientAddList {
+  string clientid = 1;
+  string name = 2;
+  string address = 3;
+  string city = 4;
+  string province = 5;
+  string zipcode = 6;
+  string country = 7;
+}
+
+message ClientAddResponse {
+  string status = 1;
+  repeated ClientAddList results = 2;
+}
+
+message ClientEditRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string name = 5;
+  string address = 6;
+  string city = 7;
+  string province = 8;
+  string zipcode = 9;
+  string country = 10;
+}
+message ClientEditList {
+  string clientid = 1;
+  string name = 2;
+  string address = 3;
+  string city = 4;
+  string province = 5;
+  string zipcode = 6;
+  string country = 7;
+}
+message ClientEditResponse {
+  string status = 1;
+  repeated ClientEditList results = 2;
+}
+
+message ClientToggleRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+}
+message ClientToggleResponse {
+  string status = 1;
+}
+
+message ClientDeleteRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+}
+message ClientDeleteResponse {
+  string status = 1;
+}
+
+
+// Place CRUD
+message PlaceViewRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+  string name = 6;
+  string city = 7;
+  string province = 8;
+  string country = 9;
+  string type = 10;
+  string category = 11;
+}
+message PlaceViewList {
+  string clientid = 1;
+  string placeid = 2;
+  string clientname = 3;
+  string placename = 4;
+  string address = 5;
+  string city = 6;
+  string province = 7;
+  string zipcode = 8;
+  string country = 9;
+  double latitude = 10;
+  double longitude = 11;
+  string type = 12;
+  string category = 13;
+  double gatein = 14;
+  double gateout = 15;
+  bool isactive = 16;
+}
+message PlaceViewResponse {
+  string status = 1;
+  repeated PlaceViewList results = 2;
+}
+
+message PlaceAddRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string name = 5;
+  string address = 6;
+  string city = 7;
+  string province = 8;
+  string zipcode = 9;
+  string country = 10;
+  double latitude = 11;
+  double longitude = 12;
+  string type = 13;
+  string category = 14;
+}
+message PlaceAddList {
+  string placeid = 1;
+  string name = 2;
+  string address = 3;
+  string city = 4;
+  string province = 5;
+  string zipcode = 6;
+  string country = 7;
+  double latitude = 8;
+  double longitude = 9;
+  string type = 10;
+  string category = 11;
+}
+message PlaceAddResponse {
+  string status = 1;
+  repeated PlaceAddList results = 2;
+}
+
+message PlaceEditRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+  string name = 6;
+  string address = 7;
+  string city = 8;
+  string province = 9;
+  string zipcode = 10;
+  string country = 11;
+  double latitude = 12;
+  double longitude = 13;
+  string type = 14;
+  string category = 15;
+}
+message PlaceEditList {
+  string placeid = 1;
+  string name = 2;
+  string address = 3;
+  string city = 4;
+  string province = 5;
+  string zipcode = 6;
+  string country = 7;
+  double latitude = 8;
+  double longitude = 9;
+  string type = 10;
+  string category = 11;
+}
+message PlaceEditResponse {
+  string status = 1;
+  repeated PlaceEditList results = 2;
+}
+
+message PlaceToggleRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+}
+message PlaceToggleResponse {
+  string status = 1;
+}
+
+message PlaceDeleteRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+}
+message PlaceDeleteResponse {
+  string status = 1;
+}
+
+
+// Gate CRUD
+message GateViewRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+  string gateid = 6;
+  string name = 7;
+  string location = 8;
+  string access = 9;
+  string type = 10;
+}
+message GateViewList {
+  string clientid = 1;
+  string placeid = 2;
+  string gateid = 3;
+  string clientname = 4;
+  string placename = 5;
+  string gatename = 6;
+  string location = 7;
+  string access = 8;
+  string type = 9;
+  bool isactive = 10;
+  bool isgenerated = 11;
+  string lastgenerated = 12;
+}
+message GateViewResponse {
+  string status = 1;
+  repeated GateViewList results = 2;
+}
+
+message GateAddRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+  string name = 6;
+  string location = 7;
+  string access = 8;
+  string type = 9;
+}
+message GateAddList {
+  string gateid = 1;
+  string name = 2;
+  string location = 3;
+  string access = 4;
+  string type = 5;
+}
+message GateAddResponse {
+  string status = 1;
+  repeated GateAddList results = 2;
+}
+
+message GateEditRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+  string gateid = 6;
+  string name = 7;
+  string location = 8;
+  string access = 9;
+  string type = 10;
+}
+message GateEditList {
+  string gateid = 1;
+  string name = 2;
+  string location = 3;
+  string access = 4;
+  string type = 5;
+}
+message GateEditResponse {
+  string status = 1;
+  repeated GateEditList results = 2;
+}
+
+message GateToggleRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+  string gateid = 6;
+}
+message GateToggleResponse {
+  string status = 1;
+}
+
+message GateDeleteRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+  string gateid = 6;
+}
+message GateDeleteResponse {
+  string status = 1;
+}
+
+
+message GateSettingViewRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+  string gateid = 6;
+}
+message GateSettingViewList {
+  string gateid = 1;
+  string urlcore = 2;
+  string urltcp = 3;
+  string urlcontroller = 4;
+  string camerausername = 5;
+  string camerapassword = 6;
+  string cameraipaddress = 7;
+  string camerafolder = 8;
+}
+message GateSettingViewResponse {
+  string status = 1;
+  repeated GateSettingViewList results = 2;
+}
+
+message GateSettingEditRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+  string gateid = 6;
+  string urlcore = 7;
+  string urltcp = 8;
+  string urlcontroller = 9;
+  string camerausername = 10;
+  string camerapassword = 11;
+  string cameraipaddress = 12;
+  string camerafolder = 13;
+}
+message GateSettingEditList {
+  string gateid = 1;
+  string urlcore = 2;
+  string urltcp = 3;
+  string urlcontroller = 4;
+  string camerausername = 5;
+  string camerapassword = 6;
+  string cameraipaddress = 7;
+  string camerafolder = 8;
+}
+message GateSettingEditResponse {
+  string status = 1;
+  repeated GateSettingEditList results = 2;
+}
+
+message GateSettingResetRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+  string gateid = 6;
+}
+message GateSettingResetResponse {
+  string status = 1;
+}
+
+
+message GateHardwareViewRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+  string gateid = 6;
+}
+message GateHardwareViewList {
+  string gateid = 1;
+  string controller = 2;
+  string camera = 3;
+  string printer = 4;
+}
+message GateHardwareViewResponse {
+  string status = 1;
+  repeated GateHardwareViewList results = 2;
+}
+
+message GateHardwareEditRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+  string gateid = 6;
+  string controller = 7;
+  string camera = 8;
+  string printer = 9;
+}
+message GateHardwareEditList {
+  string gateid = 1;
+  string controller = 2;
+  string camera = 3;
+  string printer = 4;
+}
+message GateHardwareEditResponse {
+  string status = 1;
+  repeated GateHardwareEditList results = 2;
+}
+
+message GateHardwareResetRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+  string gateid = 6;
+}
+message GateHardwareResetResponse {
+  string status = 1;
+}
+
+
+// Price CRUD
+message PriceViewRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string priceid = 4;
+  string placeid = 5;
+}
+message PriceViewList {
+  string priceid = 1;
+  string placeid = 2;
+  double free = 3;
+  double duration1 = 4;
+  double price1 = 5;
+  double duration2 = 6;
+  double price2 = 7;
+  double duration3 = 8;
+  double price3 = 9;
+  double price4 = 10;
+}
+message PriceViewResponse {
+  string status = 1;
+  repeated PriceViewList results = 2;
+}
+
+message PriceEditRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string priceid = 4;
+  string placeid = 5;
+  double free = 6;
+  double duration1 = 7;
+  double price1 = 8;
+  double duration2 = 9;
+  double price2 = 10;
+  double duration3 = 11;
+  double price3 = 12;
+  double price4 = 13;
+}
+message PriceEditList {
+  string priceid = 1;
+  string placeid = 2;
+  double free = 3;
+  double duration1 = 4;
+  double price1 = 5;
+  double duration2 = 6;
+  double price2 = 7;
+  double duration3 = 8;
+  double price3 = 9;
+  double duration4 = 10;
+  double price4 = 11;
+}
+message PriceEditResponse {
+  string status = 1;
+  repeated PriceEditList results = 2;
+}
+
+message PriceResetRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string priceid = 4;
+  string placeid = 5;
+}
+message PriceResetResponse {
+  string status = 1;
+}
+
+
+// Print Ticket In CRUD
+message PrintInViewRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+}
+message PrintInViewList {
+  string clientid = 1;
+  string placeid = 2;
+  string printid = 3;
+  string clientname = 4;
+  string placename = 5;
+  string title = 6;
+  string header = 7;
+  string footer = 8;
+  string timeformat = 9;
+  bool isshowtime = 10;
+  string updated = 11;
+}
+message PrintInViewResponse {
+  string status = 1;
+  repeated PrintInViewList results = 2;
+}
+
+message PrintInEditRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+  string printid = 6;
+  string title = 7;
+  string header = 8;
+  string footer = 9;
+  string timeformat = 10;
+  bool isshowtime = 11;
+}
+message PrintInEditList {
+  string clientid = 1;
+  string remoteip = 2;
+  string placeid = 3;
+  string printid = 4;
+  string title = 5;
+  string header = 6;
+  string footer = 7;
+  string timeformat = 8;
+  bool isshowtime = 9;
+}
+message PrintInEditResponse {
+  string status = 1;
+  repeated PrintInEditList results = 2;
+}
+
+message PrintInResetRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+  string printid = 6;
+}
+message PrintInResetResponse {
+  string status = 1;
+}
+
+
+// Print Ticket Out CRUD
+message PrintOutViewRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+}
+message PrintOutViewList {
+  string clientid = 1;
+  string placeid = 2;
+  string printid = 3;
+  string clientname = 4;
+  string placename = 5;
+  string title = 6;
+  string header = 7;
+  string footer = 8;
+  string timeformat = 9;
+  bool isshowtime = 10;
+  bool isshowtimeentry = 11;
+  bool isshowtimeout = 12;
+  bool isshowtimeduration = 13;
+  bool isshowprice = 14;
+  string updated = 15;
+}
+message PrintOutViewResponse {
+  string status = 1;
+  repeated PrintOutViewList results = 2;
+}
+
+message PrintOutEditRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+  string printid = 6;
+  string title = 7;
+  string header = 8;
+  string footer = 9;
+  string timeformat = 10;
+  bool isshowtime = 11;
+  bool isshowtimeentry = 12;
+  bool isshowtimeout = 13;
+  bool isshowtimeduration = 14;
+  bool isshowprice = 15;
+}
+message PrintOutEditList {
+  string clientid = 1;
+  string placeid = 2;
+  string printid = 3;
+  string title = 4;
+  string header = 5;
+  string footer = 6;
+  string timeformat = 7;
+  bool isshowtime = 8;
+  bool isshowtimeentry = 9;
+  bool isshowtimeout = 10;
+  bool isshowtimeduration = 11;
+  bool isshowprice = 12;
+}
+message PrintOutEditResponse {
+  string status = 1;
+  repeated PrintOutEditList results = 2;
+}
+
+message PrintOutResetRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+  string printid = 6;
+}
+message PrintOutResetResponse {
+  string status = 1;
+}
+
+
+// Get JSON config.json
+message GenerateConfigRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+  string gateid = 6;
+}
+message GenerateConfigResponse {
+  string status = 1;
+}
+
+// === Category CRUD ===
+message CategoryViewRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+}
+message CategoryViewList {
+  string categoryid = 1;
+  string name = 2;
+  bool isactive = 3;
+}
+message CategoryViewResponse {
+  string status = 1;
+  repeated CategoryViewList results = 2;
+}
+
+message CategoryAddRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string name = 4;
+}
+message CategoryAddList {
+  string categoryid = 1;
+  string name = 2;
+}
+message CategoryAddResponse {
+  string status = 1;
+  repeated CategoryAddList results = 2;
+}
+
+message CategoryEditRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string categoryid = 4;
+  string name = 5;
+}
+message CategoryEditList {
+  string categoryid = 1;
+  string name = 2;
+}
+message CategoryEditResponse {
+  string status = 1;
+  repeated CategoryEditList results = 2;
+}
+
+message CategoryToggleRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string categoryid = 4;
+}
+message CategoryToggleResponse {
+  string status = 1;
+}
+
+// === Type CRUD ===
+message TypeViewRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+}
+message TypeViewList {
+  string typeid = 1;
+  string name = 2;
+  bool isactive = 3;
+}
+message TypeViewResponse {
+  string status = 1;
+  repeated TypeViewList results = 2;
+}
+
+message TypeAddRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string name = 4;
+}
+message TypeAddList {
+  string typeid = 1;
+  string name = 2;
+}
+message TypeAddResponse {
+  string status = 1;
+  repeated TypeAddList results = 2;
+}
+
+message TypeEditRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string typeid = 4;
+  string name = 5;
+}
+message TypeEditList {
+  string typeid = 1;
+  string name = 2;
+}
+message TypeEditResponse {
+  string status = 1;
+  repeated TypeEditList results = 2;
+}
+
+message TypeToggleRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string typeid = 4;
+}
+message TypeToggleResponse {
+  string status = 1;
+}
+
+
+// === Report Billable ===
+message TransactionRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+  string start = 6;
+  string end = 7;
+  string status = 8;
+}
+message TransactionList {
+  string transactionid = 1;
+  string clientname = 2;
+  string placename = 3;
+  string gatein = 4;
+  string gateout = 5;
+  string datein = 6;
+  string dateout = 7;
+  string duration = 8;
+  double price = 9;
+  double fee = 10;
+  double amount = 11;
+  string plate = 12;
+  string vehicle = 13;
+  string imagein = 14;
+  string imageout = 15;
+  string qrdata = 16;
+  string status = 17;
+}
+message TransactionResponse {
+  string status = 1;
+  repeated TransactionList results = 2;
+}
+
+message GateReportRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+  string gateid = 6;
+  string datestart = 7;
+  string dateend = 8;
+  string status = 9;
+}
+message GateReportList {
+  string transactionid = 1;
+  string clientname = 2;
+  string placename = 3;
+  string gatein = 4;
+  string gateout = 5;
+  string datein = 6;
+  string dateout = 7;
+  string duration = 8;
+  double price = 9;
+  double fee = 10;
+  double amount = 11;
+  string qrdata = 12;
+  string status = 13;
+}
+message GateReportResponse {
+  string status = 1;
+  repeated GateReportList results = 2;
+}
+
+
+// Admin supporting data
+message AdminRolesRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+}
+message AdminRolesList {
+  string roleid = 1;
+  string name = 2;
+}
+message AdminRolesResponse {
+  string status = 1;
+  repeated AdminRolesList results = 2;
+}
+
+message ClientRolesRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+}
+message ClientRolesList {
+  string roleid = 1;
+  string name = 2;
+}
+message ClientRolesResponse {
+  string status = 1;
+  repeated ClientRolesList results = 2;
+}
+
+message CategoriesRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+}
+message CategoriesList {
+  string categoryid = 1;
+  string name = 2;
+}
+message CategoriesResponse {
+  string status = 1;
+  repeated CategoriesList results = 2;
+}
+
+message TypesRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+}
+message TypesList {
+  string typeid = 1;
+  string name = 2;
+}
+message TypesResponse {
+  string status = 1;
+  repeated TypesList results = 2;
+}
+
+message CountriesRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string countryid = 4;
+}
+message CountriesList {
+  string countryid = 1;
+  string name = 2;
+}
+message CountriesResponse {
+  string status = 1;
+  repeated CountriesList results = 2;
+}
+
+message ProvincesRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string countryid = 4;
+}
+message ProvincesList {
+  string provinceid = 1;
+  string name = 2;
+}
+message ProvincesResponse {
+  string status = 1;
+  repeated ProvincesList results = 2;
+}
+
+message CitiesRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string provinceid = 4;
+}
+message CitiesList {
+  string cityid = 1;
+  string name = 2;
+}
+message CitiesResponse {
+  string status = 1;
+  repeated CitiesList results = 2;
+}
+
+message ClientsRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+}
+message ClientsList {
+  string clientid = 1;
+  string clientname = 2;
+}
+message ClientsResponse {
+  string status = 1;
+  repeated ClientsList results = 2;
+}
+
+message PlacesRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+}
+message PlacesList {
+  string clientid = 1;
+  string placeid = 2;
+  string placename = 3;
+}
+message PlacesResponse {
+  string status = 1;
+  repeated PlacesList results = 2;
+}
+
+message TimeFormatsRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+}
+message TimeFormatsList {
+  string timeid = 1;
+  string format = 2;
+  string example = 3;
+}
+message TimeFormatsResponse {
+  string status = 1;
+  repeated TimeFormatsList results = 2;
+}
+
+
+message LogViewRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string database = 4;
+  string date = 5;
+  string filter = 6;
+  string data = 7;
+}
+message LogViewList {
+  string application = 1;
+  string datetime = 2;
+  string traceid = 3;
+  string loglevel = 4;
+  string modules = 5;
+  string function = 6;
+  string identity = 7;
+  string remoteip = 8;
+  string message = 9;
+  string error = 10;
+  string status = 11;
+}
+message LogViewResponse {
+  string status = 1;
+  repeated LogViewList results = 2;
+}
+
+
+
+// Synchronize local database to server
+message MonitorRequest {
+  string sessionid = 1;
+  string remoteip = 2;
+  string adminid = 3;
+  string clientid = 4;
+  string placeid = 5;
+}
+message MonitorServiceList {
+  string servicename = 1;
+  bool servicestatus = 2;
+}
+message MonitorList {
+  string clientid = 1;
+  string placeid = 2;
+  string clientname = 3;
+  string placename = 4;
+  repeated MonitorServiceList services = 5;
+}
+message MonitorResponse {
+  string status = 1;
+  repeated MonitorList results = 2;
+}
+
+
+
+
+service WebadminService {
+
+  // Admin Login and Logout
+  rpc DoLogin(LoginRequest) returns (LoginResponse) {}
+  rpc DoLogout(LogoutRequest) returns (LogoutResponse) {}
+  rpc DoCheckSession(CheckSessionRequest) returns (CheckSessionResponse) {}
+
+  // Admin User CRUD
+  rpc DoAdminUserView(AdminUserViewRequest) returns (AdminUserViewResponse) {}
+  rpc DoAdminUserAdd(AdminUserAddRequest) returns (AdminUserAddResponse) {}
+  rpc DoAdminUserEdit(AdminUserEditRequest) returns (AdminUserEditResponse) {}
+  rpc DoAdminUserResetPassword(AdminUserResetPasswordRequest) returns (AdminUserResetPasswordResponse) {}
+  rpc DoAdminUserToggle(AdminUserToggleRequest) returns (AdminUserToggleResponse) {}
+  rpc DoAdminUserDelete(AdminUserDeleteRequest) returns (AdminUserDeleteResponse) {}
+
+  // Client User CRUD
+  rpc DoClientUserView(ClientUserViewRequest) returns (ClientUserViewResponse) {}
+  rpc DoClientUserAdd(ClientUserAddRequest) returns (ClientUserAddResponse) {}
+  rpc DoClientUserEdit(ClientUserEditRequest) returns (ClientUserEditResponse) {}
+  rpc DoClientUserResetPassword(ClientUserResetPasswordRequest) returns (ClientUserResetPasswordResponse) {}
+  rpc DoClientUserToggle(ClientUserToggleRequest) returns (ClientUserToggleResponse) {}
+  rpc DoClientUserDelete(ClientUserDeleteRequest) returns (ClientUserDeleteResponse) {}
+
+  // Client CRUD
+  rpc DoClientView(ClientViewRequest) returns (ClientViewResponse) {}
+  rpc DoClientAdd(ClientAddRequest) returns (ClientAddResponse) {}
+  rpc DoClientEdit(ClientEditRequest) returns (ClientEditResponse) {}
+  rpc DoClientToggle(ClientToggleRequest) returns (ClientToggleResponse) {}
+  rpc DoClientDelete(ClientDeleteRequest) returns (ClientDeleteResponse) {}
+
+  // Place CRUD
+  rpc DoPlaceView(PlaceViewRequest) returns (PlaceViewResponse) {}
+  rpc DoPlaceAdd(PlaceAddRequest) returns (PlaceAddResponse) {}
+  rpc DoPlaceEdit(PlaceEditRequest) returns (PlaceEditResponse) {}
+  rpc DoPlaceToggle(PlaceToggleRequest) returns (PlaceToggleResponse) {}
+  rpc DoPlaceDelete(PlaceDeleteRequest) returns (PlaceDeleteResponse) {}
+
+  // Gate CRUD
+  rpc DoGateView(GateViewRequest) returns (GateViewResponse) {}
+  rpc DoGateAdd(GateAddRequest) returns (GateAddResponse) {}
+  rpc DoGateEdit(GateEditRequest) returns (GateEditResponse) {}
+  rpc DoGateToggle(GateToggleRequest) returns (GateToggleResponse) {}
+  rpc DoGateDelete(GateDeleteRequest) returns (GateDeleteResponse) {}
+
+  rpc DoGateSettingView(GateSettingViewRequest) returns (GateSettingViewResponse) {}
+  rpc DoGateSettingEdit(GateSettingEditRequest) returns (GateSettingEditResponse) {}
+  rpc DoGateSettingReset(GateSettingResetRequest) returns (GateSettingResetResponse) {}
+
+  rpc DoGateHardwareView(GateHardwareViewRequest) returns (GateHardwareViewResponse) {}
+  rpc DoGateHardwareEdit(GateHardwareEditRequest) returns (GateHardwareEditResponse) {}
+  rpc DoGateHardwareReset(GateHardwareResetRequest) returns (GateHardwareResetResponse) {}
+
+  // Gate Generate Config
+  rpc DoGateGenerateConfig(GenerateConfigRequest) returns (GenerateConfigResponse) {}
+
+  // Price CRUD
+  rpc DoPriceView(PriceViewRequest) returns (PriceViewResponse) {}
+  rpc DoPriceEdit(PriceEditRequest) returns (PriceEditResponse) {}
+  rpc DoPriceReset(PriceResetRequest) returns (PriceResetResponse) {}
+
+  // Print In CRUD
+  rpc DoPrintInView(PrintInViewRequest) returns (PrintInViewResponse) {}
+  rpc DoPrintInEdit(PrintInEditRequest) returns (PrintInEditResponse) {}
+  rpc DoPrintInReset(PrintInResetRequest) returns (PrintInResetResponse) {}
+
+  // Print Out CRUD
+  rpc DoPrintOutView(PrintOutViewRequest) returns (PrintOutViewResponse) {}
+  rpc DoPrintOutEdit(PrintOutEditRequest) returns (PrintOutEditResponse) {}
+  rpc DoPrintOutReset(PrintOutResetRequest) returns (PrintOutResetResponse) {}
+
+  // Category CRUD
+  rpc DoCategoryView(CategoryViewRequest) returns (CategoryViewResponse) {}
+  rpc DoCategoryAdd(CategoryAddRequest) returns (CategoryAddResponse) {}
+  rpc DoCategoryEdit(CategoryEditRequest) returns (CategoryEditResponse) {}
+  rpc DoCategoryToggle(CategoryToggleRequest) returns (CategoryToggleResponse) {}
+
+  // Type CRUD
+  rpc DoTypeView(TypeViewRequest) returns (TypeViewResponse) {}
+  rpc DoTypeAdd(TypeAddRequest) returns (TypeAddResponse) {}
+  rpc DoTypeEdit(TypeEditRequest) returns (TypeEditResponse) {}
+  rpc DoTypeToggle(TypeToggleRequest) returns (TypeToggleResponse) {}
+
+  // Report
+  rpc DoTransaction(TransactionRequest) returns (TransactionResponse) {}
+
+  // Admin Support Data
+  rpc DoGetAdminRoles(AdminRolesRequest) returns (AdminRolesResponse) {}
+  rpc DoGetClientRoles(ClientRolesRequest) returns (ClientRolesResponse) {}
+  rpc DoGetCategories(CategoriesRequest) returns (CategoriesResponse) {}
+  rpc DoGetTypes(TypesRequest) returns (TypesResponse) {}
+  rpc DoGetCountries(CountriesRequest) returns (CountriesResponse) {}
+  rpc DoGetProvinces(ProvincesRequest) returns (ProvincesResponse) {}
+  rpc DoGetCities(CitiesRequest) returns (CitiesResponse) {}
+  rpc DoGetClients(ClientsRequest) returns (ClientsResponse) {}
+  rpc DoGetPlaces(PlacesRequest) returns (PlacesResponse) {}
+  rpc DoGetTimeFormats(TimeFormatsRequest) returns (TimeFormatsResponse) {}
+
+  // Logging
+  rpc DoGetLog(LogViewRequest) returns (LogViewResponse) {}
+  rpc DoGetMonitor(MonitorRequest) returns (MonitorResponse) {}
+
+}
