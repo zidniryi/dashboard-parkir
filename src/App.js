@@ -19,15 +19,15 @@ import {useEffect} from 'react';
 const App = () => {
   const customization = useSelector((state) => state.customization);
 
-  const getIp = async () => {
-    const response = await fetch('https://geolocation-db.com/json/');
-    const data = await response.json();
+  // const getIp = async () => {
+  //   const response = await fetch('https://geolocation-db.com/json/');
+  //   const data = await response.json();
 
-    // alert(data.IPv4);
-  };
-  useEffect(() => {
-    getIp();
-  }, []);
+  //   // alert(data.IPv4);
+  // };
+  // useEffect(() => {
+  //   getIp();
+  // }, []);
 
   return (
     <StyledEngineProvider injectFirst>
