@@ -29,6 +29,7 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import localKey from 'constant';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -72,6 +73,8 @@ const FirebaseLogin = ({...others}) => {
             if (scriptedRef.current) {
               setStatus({success: true});
               setSubmitting(false);
+              localStorage.setItem(localKey.sessionid, '123456677');
+              window.location.reload();
             }
           } catch (err) {
             console.error(err);
