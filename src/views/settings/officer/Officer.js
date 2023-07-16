@@ -10,7 +10,8 @@ import {
   Button,
   Card,
   CardContent,
-  Switch
+  Switch,
+  Chip
 } from '@mui/material';
 import {Link} from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -218,7 +219,9 @@ const Officer = () => {
                     <TableCell>{item?.lastlogin}</TableCell>
                     <TableCell>{item?.phone}</TableCell>
                     <TableCell>{item?.role}</TableCell>
-                    <TableCell>{item?.isactive ? 'Y' : 'N'}</TableCell>
+                    <TableCell>
+                      <Chip label={item?.isactive ? 'Y' : 'N'} color={item?.isactive ? 'primary' : 'error'} />
+                    </TableCell>
                     <TableCell>
                       <Switch
                         checked={item?.isactive}
