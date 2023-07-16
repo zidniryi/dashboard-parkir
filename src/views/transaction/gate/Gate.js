@@ -93,7 +93,6 @@ const Gate = () => {
           setisError(err?.toString());
         }
       });
-      // });
     } catch (err) {
       Swal.fire('Error!', `${err?.response?.status} Something went wrong try again`, 'danger');
       setisLoading(false);
