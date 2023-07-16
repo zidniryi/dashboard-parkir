@@ -22,7 +22,6 @@ import {service} from 'proto/service';
 import Spinner from 'ui-component/Spinner';
 import ErrorPage from 'ui-component/ErrorPage';
 const Officer = () => {
-  // eslint-disable-next-line no-unused-vars
   const [data, setData] = useState([]);
   const [isLoading, setisLoading] = useState(false);
   const [isError, setisError] = useState('');
