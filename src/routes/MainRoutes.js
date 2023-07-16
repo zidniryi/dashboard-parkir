@@ -26,6 +26,7 @@ const FineRates = Loadable(lazy(() => import('views/settings/fine-rates/FineRate
 const Membership = Loadable(lazy(() => import('views/settings/membership/Membership')));
 const Payment = Loadable(lazy(() => import('views/settings/payment/Payment')));
 const Officer = Loadable(lazy(() => import('views/settings/officer/Officer')));
+const AddOfficer = Loadable(lazy(() => import('views/settings/officer/AddOfficer')));
 
 // Clients
 const ListClient = Loadable(lazy(() => import('views/clients/list-clients/ListClient')));
@@ -176,6 +177,15 @@ const MainRoutes = {
         {
           path: 'officer',
           element: <Officer />
+        }
+      ]
+    },
+    {
+      path: 'settings',
+      children: [
+        {
+          path: 'add-officer',
+          element: <AddOfficer />
         }
       ]
     },

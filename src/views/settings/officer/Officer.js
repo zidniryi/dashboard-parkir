@@ -93,7 +93,7 @@ const Officer = () => {
         <CardContent>
           <div style={{marginBottom: '1rem', display: 'flex', justifyContent: 'space-between'}}>
             <TextField label="Search by Officer Name, Shift, role, or Parking Location" value={searchTerm} onChange={handleSearch} />
-            <Link to={'/officers/add-officer'}>
+            <Link to={'/settings/add-officer'}>
               <Button variant="contained" color="primary">
                 Add Officer
               </Button>
