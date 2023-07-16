@@ -63,6 +63,8 @@ const FirebaseLogin = ({...others}) => {
           localStorage.setItem(localKey.sessionid, rpcLoginResponse.resultsList[0].sessionid);
           localStorage.setItem(localKey.username, rpcLoginResponse.resultsList[0].username);
           localStorage.setItem(localKey.role, rpcLoginResponse.resultsList[0].role);
+          localStorage.setItem(localKey.adminid, rpcLoginResponse.resultsList[0].adminid);
+
           window.location.reload();
         } else {
           console.log(err);

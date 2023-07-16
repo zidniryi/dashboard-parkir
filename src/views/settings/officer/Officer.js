@@ -1,40 +1,16 @@
 import React, {useState} from 'react';
 import {Table, TableContainer, TableHead, TableRow, TableCell, TableBody, TextField, Button, Card, CardContent} from '@mui/material';
 import {Link} from 'react-router-dom';
+import Swal from 'sweetalert2';
+
+import {AdminUserViewRequest} from '../../../proto/webadmin_pb';
+import {service} from 'proto/service';
+import localKey from 'constant';
+import {useEffect} from 'react';
 
 const Officer = () => {
   // eslint-disable-next-line no-unused-vars
-  const [data, setData] = useState([
-    // Dummy data
-    {
-      no: 1,
-      officerName: 'John Doe',
-      shift: 'Morning',
-      dateAdded: '2023-06-30',
-      phoneNumber: '1234567890',
-      gate: 'Gate A',
-      parkingLocation: 'Parking Lot 1'
-    },
-    {
-      no: 2,
-      officerName: 'Alice Johnson',
-      shift: 'Afternoon',
-      dateAdded: '2023-06-29',
-      phoneNumber: '9876543210',
-      gate: 'Gate B',
-      parkingLocation: 'Parking Lot 2'
-    },
-    {
-      no: 3,
-      officerName: 'Michael Brown',
-      shift: 'Night',
-      dateAdded: '2023-06-28',
-      phoneNumber: '4567891230',
-      gate: 'Gate C',
-      parkingLocation: 'Parking Lot 3'
-    }
-    // ... more data entries
-  ]);
+  const [data, setData] = useState([]);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,10 +22,11 @@ const Officer = () => {
 
   const filteredData = data.filter(
     (item) =>
-      item.officerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.shift.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.gate.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.parkingLocation.toLowerCase().includes(searchTerm.toLowerCase())
+      item.name?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
+      item.adminid?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
+      item.phone?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
+      item.email?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
+      item.role?.toLowerCase()?.includes(searchTerm?.toLowerCase())
   );
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -62,12 +39,50 @@ const Officer = () => {
     setCurrentPage(pageNumber);
   };
 
+  const onGetAdminListRpc = async () => {
+    try {
+      const dataRpc = new AdminUserViewRequest();
+      dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
+      dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
+      dataRpc.setUsername('');
+      dataRpc.setName('');
+      dataRpc.setRole('');
+
+      // new Promise((resolve, reject) => {
+      return service.doAdminUserView(dataRpc, null, (err, response) => {
+        const status = response?.toObject()?.status;
+        if (status == '000') {
+          const dataResponse = response?.toObject();
+          console.log(dataResponse?.resultsList);
+          setData(dataResponse?.resultsList);
+          console.log(dataResponse);
+        } else {
+          console.log(err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: `Something went wrong! | ${status}`
+          });
+        }
+      });
+      // });
+    } catch (err) {
+      Swal.fire('Error!', `${err?.response?.status} Something went wrong try again`, 'danger');
+    }
+  };
+
+  useEffect(() => {
+    onGetAdminListRpc();
+  }, []);
+
+  console.log(data, 'data');
+
   return (
     <div>
       <Card>
         <CardContent>
           <div style={{marginBottom: '1rem', display: 'flex', justifyContent: 'space-between'}}>
-            <TextField label="Search by Officer Name, Shift, Gate, or Parking Location" value={searchTerm} onChange={handleSearch} />
+            <TextField label="Search by Officer Name, Shift, role, or Parking Location" value={searchTerm} onChange={handleSearch} />
             <Link to={'/officers/add-officer'}>
               <Button variant="contained" color="primary">
                 Add Officer
@@ -78,13 +93,14 @@ const Officer = () => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>No</TableCell>
+                  <TableCell>Admin ID</TableCell>
                   <TableCell>Officer Name</TableCell>
-                  <TableCell>Shift</TableCell>
-                  <TableCell>Date Added</TableCell>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Username</TableCell>
+                  <TableCell>Last Login</TableCell>
                   <TableCell>Phone Number</TableCell>
-                  <TableCell>Gate</TableCell>
-                  <TableCell>Parking Location</TableCell>
+                  <TableCell>Role</TableCell>
+                  <TableCell>Is Active</TableCell>
                   <TableCell>View</TableCell>
                   <TableCell>Edit</TableCell>
                   <TableCell>Delete</TableCell>
@@ -92,14 +108,16 @@ const Officer = () => {
               </TableHead>
               <TableBody>
                 {currentItems.map((item) => (
-                  <TableRow key={item.no}>
-                    <TableCell>{item.no}</TableCell>
-                    <TableCell>{item.officerName}</TableCell>
-                    <TableCell>{item.shift}</TableCell>
-                    <TableCell>{item.dateAdded}</TableCell>
-                    <TableCell>{item.phoneNumber}</TableCell>
-                    <TableCell>{item.gate}</TableCell>
-                    <TableCell>{item.parkingLocation}</TableCell>
+                  <TableRow key={item?.adminid}>
+                    <TableCell>{item?.adminid}</TableCell>
+                    <TableCell>{item?.name}</TableCell>
+                    <TableCell>{item?.email}</TableCell>
+                    <TableCell>{item?.username}</TableCell>
+
+                    <TableCell>{item?.lastlogin}</TableCell>
+                    <TableCell>{item?.phone}</TableCell>
+                    <TableCell>{item?.role}</TableCell>
+                    <TableCell>{item?.isactive ? 'Y' : 'N'}</TableCell>
                     <TableCell>
                       <Button variant="contained" color="primary" size="small">
                         View

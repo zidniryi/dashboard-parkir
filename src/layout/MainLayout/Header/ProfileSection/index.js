@@ -96,7 +96,7 @@ const ProfileSection = () => {
         localStorage.removeItem(localKey.sessionid);
         localStorage.removeItem(localKey.username);
         localStorage.removeItem(localKey.role);
-        window.location.reload();
+        window.location.href = '/';
       });
     } catch (err) {
       Swal.fire('Error!', `${err} Something went wrong try again`, 'danger');
