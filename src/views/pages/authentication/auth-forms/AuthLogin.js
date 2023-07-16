@@ -60,6 +60,7 @@ const FirebaseLogin = ({...others}) => {
         const status = response?.toObject()?.status;
         if (status == '000') {
           const rpcLoginResponse = response?.toObject();
+          // console.log(rpcLoginResponse.resultsList[0]);
           localStorage.setItem(localKey.sessionid, rpcLoginResponse.resultsList[0].sessionid);
           localStorage.setItem(localKey.username, rpcLoginResponse.resultsList[0].username);
           localStorage.setItem(localKey.role, rpcLoginResponse.resultsList[0].role);

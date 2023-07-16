@@ -28,7 +28,8 @@ const Officer = () => {
       item.adminid?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
       item.phone?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
       item.email?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
-      item.role?.toLowerCase()?.includes(searchTerm?.toLowerCase())
+      item.role?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
+      item.username?.toLowerCase()?.includes(searchTerm?.toLowerCase())
   );
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -50,6 +51,7 @@ const Officer = () => {
       dataRpc.setUsername('');
       dataRpc.setName('');
       dataRpc.setRole('');
+      dataRpc.setRemoteip(localStorage.getItem(localKey.remoteip));
 
       // new Promise((resolve, reject) => {
       return service.doAdminUserView(dataRpc, null, (err, response) => {
@@ -58,7 +60,7 @@ const Officer = () => {
 
         if (status == '000') {
           const dataResponse = response?.toObject();
-          console.log(dataResponse?.resultsList);
+          // console.log(dataResponse?.resultsList);
           setData(dataResponse?.resultsList);
           setisError('');
         } else {
