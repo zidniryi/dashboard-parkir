@@ -1,16 +1,18 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Table, TableContainer, TableHead, TableRow, TableCell, TableBody, TextField, Button, Card, CardContent} from '@mui/material';
 import {Link} from 'react-router-dom';
 import Swal from 'sweetalert2';
 
+import localKey from 'constant';
 import {AdminUserViewRequest} from '../../../proto/webadmin_pb';
 import {service} from 'proto/service';
-import localKey from 'constant';
-import {useEffect} from 'react';
-
+import Spinner from 'ui-component/Spinner';
+import ErrorPage from 'ui-component/ErrorPage';
 const Officer = () => {
   // eslint-disable-next-line no-unused-vars
   const [data, setData] = useState([]);
+  const [isLoading, setisLoading] = useState(false);
+  const [isError, setisError] = useState('');
 
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,6 +42,7 @@ const Officer = () => {
   };
 
   const onGetAdminListRpc = async () => {
+    setisLoading(true);
     try {
       const dataRpc = new AdminUserViewRequest();
       dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
@@ -51,23 +54,28 @@ const Officer = () => {
       // new Promise((resolve, reject) => {
       return service.doAdminUserView(dataRpc, null, (err, response) => {
         const status = response?.toObject()?.status;
+        setisLoading(false);
+
         if (status == '000') {
           const dataResponse = response?.toObject();
           console.log(dataResponse?.resultsList);
           setData(dataResponse?.resultsList);
-          console.log(dataResponse);
+          setisError('');
         } else {
-          console.log(err);
           Swal.fire({
             icon: 'error',
             title: 'Error!',
             text: `Something went wrong! | ${status}`
           });
+          setisLoading(false);
+          setisError(err?.toString());
         }
       });
       // });
     } catch (err) {
       Swal.fire('Error!', `${err?.response?.status} Something went wrong try again`, 'danger');
+      setisLoading(false);
+      setisError(err?.toString());
     }
   };
 
@@ -75,8 +83,8 @@ const Officer = () => {
     onGetAdminListRpc();
   }, []);
 
-  console.log(data, 'data');
-
+  if (isLoading) return <Spinner />;
+  else if (isError) return <ErrorPage errorMessage={isError} />;
   return (
     <div>
       <Card>
