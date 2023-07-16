@@ -233,9 +233,11 @@ const Officer = () => {
                       </Button>
                     </TableCell>
                     <TableCell>
-                      <Button variant="contained" color="secondary" size="small">
-                        Edit
-                      </Button>
+                      <Link to={'/settings/edit-officer'} state={{data: item}}>
+                        <Button variant="contained" color="secondary" size="small">
+                          Edit
+                        </Button>
+                      </Link>
                     </TableCell>
                     <TableCell>
                       <Button variant="contained" color="error" size="small" onClick={() => onDeleteAlert(item)}>
