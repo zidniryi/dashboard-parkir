@@ -37,6 +37,10 @@ import User1 from 'assets/images/users/user-round.svg';
 import {IconLogout, IconSettings} from '@tabler/icons';
 import localKey from 'constant';
 
+import {LogoutRequest} from '../../../../proto/webadmin_pb';
+import {service} from 'proto/service';
+import Swal from 'sweetalert2';
+
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = () => {
@@ -52,9 +56,6 @@ const ProfileSection = () => {
    * anchorRef is used on different componets and specifying one type leads to other components throwing an error
    * */
   const anchorRef = useRef(null);
-  const handleLogout = async () => {
-    console.log('Logout');
-  };
 
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -83,6 +84,24 @@ const ProfileSection = () => {
 
     prevOpen.current = open;
   }, [open]);
+
+  const onLogoutRPC = () => {
+    try {
+      const logoutRpc = new LogoutRequest();
+      logoutRpc.setSessionid(localStorage.getItem(localKey.sessionid));
+      logoutRpc.setAdminid(localStorage.getItem(localKey.adminid));
+
+      // new Promise((resolve, reject) => {
+      return service.doLogout(logoutRpc, null, () => {
+        localStorage.removeItem(localKey.sessionid);
+        localStorage.removeItem(localKey.username);
+        localStorage.removeItem(localKey.role);
+        window.location.reload();
+      });
+    } catch (err) {
+      Swal.fire('Error!', `${err} Something went wrong try again`, 'danger');
+    }
+  };
 
   return (
     <>
@@ -238,7 +257,7 @@ const ProfileSection = () => {
                         <ListItemButton
                           sx={{borderRadius: `${customization.borderRadius}px`}}
                           selected={selectedIndex === 4}
-                          onClick={handleLogout}
+                          onClick={onLogoutRPC}
                         >
                           <ListItemIcon>
                             <IconLogout stroke={1.5} size="1.3rem" />
