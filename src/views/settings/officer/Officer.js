@@ -16,7 +16,7 @@ import {Link} from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import localKey from 'constant';
-import {AdminUserViewRequest, AdminUserToggleRequest} from '../../../proto/webadmin_pb';
+import {AdminUserViewRequest, AdminUserToggleRequest, AdminUserDeleteRequest} from '../../../proto/webadmin_pb';
 import {service} from 'proto/service';
 import Spinner from 'ui-component/Spinner';
 import ErrorPage from 'ui-component/ErrorPage';
@@ -128,6 +128,53 @@ const Officer = () => {
     }
   };
 
+  const onDeleteRpc = (targetId) => {
+    try {
+      const dataRpc = new AdminUserDeleteRequest();
+      dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
+      dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
+      dataRpc.setTargetadminid(targetId);
+      dataRpc.setRemoteip(localStorage.getItem(localKey.remoteip));
+
+      // new Promise((resolve, reject) => {
+      return service.doAdminUserDelete(dataRpc, null, (err, response) => {
+        const status = response?.toObject()?.status;
+
+        if (status == '000') {
+          Swal.fire('Deleted!', 'Your data has been deleted.', 'success');
+          onGetAdminListRpc();
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: `Something went wrong! | ${status}`
+          });
+          setisLoading(false);
+          setisError(err?.toString());
+        }
+      });
+      // });
+    } catch (err) {
+      Swal.fire('Error!', `${err?.response?.status} Something went wrong try again`, 'danger');
+    }
+  };
+
+  const onDeleteAlert = (data) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: `Delete this ${data.adminid}`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        onDeleteRpc(data.adminid);
+      }
+    });
+  };
+
   if (isLoading) return <Spinner />;
   else if (isError) return <ErrorPage errorMessage={isError} />;
   return (
@@ -191,7 +238,7 @@ const Officer = () => {
                       </Button>
                     </TableCell>
                     <TableCell>
-                      <Button variant="contained" color="error" size="small">
+                      <Button variant="contained" color="error" size="small" onClick={() => onDeleteAlert(item)}>
                         Delete
                       </Button>
                     </TableCell>
