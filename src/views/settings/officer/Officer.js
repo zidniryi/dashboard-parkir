@@ -1,10 +1,22 @@
 import React, {useState, useEffect} from 'react';
-import {Table, TableContainer, TableHead, TableRow, TableCell, TableBody, TextField, Button, Card, CardContent} from '@mui/material';
+import {
+  Table,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  TextField,
+  Button,
+  Card,
+  CardContent,
+  Switch
+} from '@mui/material';
 import {Link} from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import localKey from 'constant';
-import {AdminUserViewRequest} from '../../../proto/webadmin_pb';
+import {AdminUserViewRequest, AdminUserToggleRequest} from '../../../proto/webadmin_pb';
 import {service} from 'proto/service';
 import Spinner from 'ui-component/Spinner';
 import ErrorPage from 'ui-component/ErrorPage';
@@ -85,6 +97,37 @@ const Officer = () => {
     onGetAdminListRpc();
   }, []);
 
+  const onChangeSwitchRpc = (targetId) => {
+    try {
+      const dataRpc = new AdminUserToggleRequest();
+      dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
+      dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
+      dataRpc.setTargetadminid(targetId);
+      dataRpc.setRemoteip(localStorage.getItem(localKey.remoteip));
+
+      // new Promise((resolve, reject) => {
+      return service.doAdminUserToggle(dataRpc, null, (err, response) => {
+        const status = response?.toObject()?.status;
+
+        if (status == '000') {
+          onGetAdminListRpc();
+          // console.log(dataResponse?.resultsList);
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: `Something went wrong! | ${status}`
+          });
+          setisLoading(false);
+          setisError(err?.toString());
+        }
+      });
+      // });
+    } catch (err) {
+      Swal.fire('Error!', `${err?.response?.status} Something went wrong try again`, 'danger');
+    }
+  };
+
   if (isLoading) return <Spinner />;
   else if (isError) return <ErrorPage errorMessage={isError} />;
   return (
@@ -111,6 +154,7 @@ const Officer = () => {
                   <TableCell>Phone Number</TableCell>
                   <TableCell>Role</TableCell>
                   <TableCell>Is Active</TableCell>
+                  <TableCell>Set Active</TableCell>
                   <TableCell>View</TableCell>
                   <TableCell>Edit</TableCell>
                   <TableCell>Delete</TableCell>
@@ -128,6 +172,14 @@ const Officer = () => {
                     <TableCell>{item?.phone}</TableCell>
                     <TableCell>{item?.role}</TableCell>
                     <TableCell>{item?.isactive ? 'Y' : 'N'}</TableCell>
+                    <TableCell>
+                      <Switch
+                        checked={item?.isactive}
+                        onChange={() => onChangeSwitchRpc(item?.adminid)}
+                        inputProps={{'aria-label': 'controlled'}}
+                      />
+                    </TableCell>
+
                     <TableCell>
                       <Button variant="contained" color="primary" size="small">
                         View
