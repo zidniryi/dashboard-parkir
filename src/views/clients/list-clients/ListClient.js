@@ -43,9 +43,7 @@ const ListClient = () => {
       item.city?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
       item.province?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
       item.zipcode?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
-      item.country?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
-      item.totalplace?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
-      item.isactive?.toString()?.toLowerCase()?.includes(searchTerm?.toLowerCase())
+      item.country?.toLowerCase()?.includes(searchTerm?.toLowerCase())
   );
 
   const indexOfLastItem = currentPage * itemsPerPage;
