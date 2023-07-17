@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
-import {TextField, Button, Card, CardContent} from '@mui/material';
+import React, {useState, useEffect} from 'react';
+import {TextField, Button, Card, CardContent, Select, MenuItem} from '@mui/material';
 import {Link, useNavigate} from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import localKey from 'constant';
-import {ClientAddRequest} from '../../../proto/webadmin_pb';
+import {ClientAddRequest, CitiesRequest} from '../../../proto/webadmin_pb';
 import {service} from 'proto/service';
 
 const AddListClient = () => {
@@ -16,6 +16,13 @@ const AddListClient = () => {
     zipcode: '',
     country: ''
   });
+
+  const [cities, setCities] = useState({
+    data: [],
+    isLoading: false,
+    isError: false
+  });
+
   const [isLoading, setisLoading] = useState(false);
   const [isError, setisError] = useState('');
   const navigate = useNavigate();
@@ -76,6 +83,58 @@ const AddListClient = () => {
     }
   };
 
+  const onGetCityRpc = async () => {
+    setCities({
+      isLoading: true,
+      ...cities
+    });
+    try {
+      const dataRpc = new CitiesRequest();
+      dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
+      dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
+      dataRpc.setProvinceid('33');
+      dataRpc.setRemoteip(localStorage.getItem(localKey.remoteip));
+
+      return service.doGetCities(dataRpc, null, (err, response) => {
+        const status = response?.toObject()?.status;
+        console.log(response?.toObject(), 'cities');
+        setCities({
+          isLoading: false,
+          ...cities
+        });
+
+        if (status === '000') {
+          const dataResponse = response?.toObject();
+          setCities({
+            isLoading: true,
+            isError: false,
+            data: dataResponse?.resultsList
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: `Something went wrong! | ${status}`
+          });
+          setisLoading(false);
+          setisError(err?.toString());
+        }
+      });
+    } catch (err) {
+      Swal.fire('Error!', `${err?.response?.status} Something went wrong try again`, 'danger');
+      setCities({
+        isLoading: false,
+        isError: true,
+        data: []
+      });
+      setisError(err?.toString());
+    }
+  };
+
+  useEffect(() => {
+    onGetCityRpc();
+  }, []);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     onSaveUserRpc();
@@ -107,6 +166,15 @@ const AddListClient = () => {
               sx={{marginBottom: '1rem'}}
             />
             <TextField
+              label="Country"
+              name="country"
+              value={officeData.country}
+              onChange={handleInputChange}
+              required
+              fullWidth
+              sx={{marginBottom: '1rem'}}
+            />
+            {/* <TextField
               label="City"
               name="city"
               value={officeData.city}
@@ -114,7 +182,7 @@ const AddListClient = () => {
               required
               fullWidth
               sx={{marginBottom: '1rem'}}
-            />
+            /> */}
             <TextField
               label="Province"
               name="province"
@@ -124,19 +192,29 @@ const AddListClient = () => {
               fullWidth
               sx={{marginBottom: '1rem'}}
             />
+
+            <Select
+              label="City"
+              fullWidth
+              sx={{marginBottom: '1rem'}}
+              name="city"
+              required
+              value={officeData.city}
+              onChange={handleInputChange}
+            >
+              {cities.data.map((item) => {
+                return (
+                  <MenuItem key={item.cityid} value={item.cityid}>
+                    {item.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+
             <TextField
               label="Zip Code"
               name="zipcode"
               value={officeData.zipcode}
-              onChange={handleInputChange}
-              required
-              fullWidth
-              sx={{marginBottom: '1rem'}}
-            />
-            <TextField
-              label="Country"
-              name="country"
-              value={officeData.country}
               onChange={handleInputChange}
               required
               fullWidth
