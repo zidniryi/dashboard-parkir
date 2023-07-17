@@ -41,6 +41,8 @@ const AddListClient = () => {
     }));
   };
 
+  console.log(officeData.province, 'Hello');
+
   const onSaveUserRpc = async () => {
     setisLoading(true);
     try {
@@ -62,7 +64,7 @@ const AddListClient = () => {
         console.log(response?.toObject());
 
         if (status === '000') {
-          navigate('/clients/add-client');
+          navigate('/clients/list-clients');
           setisError('');
           setOfficeData({
             name: '',
@@ -86,55 +88,6 @@ const AddListClient = () => {
       setisLoading(false);
       setisError(err?.toString());
       Swal.fire('Error!', `${isError} Something went wrong, try again`, 'danger');
-    }
-  };
-
-  // Get city RPC
-  const onGetCityRpc = async () => {
-    setCities({
-      isLoading: true,
-      ...cities
-    });
-    try {
-      const dataRpc = new CitiesRequest();
-      dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
-      dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
-      dataRpc.setProvinceid('33');
-      dataRpc.setRemoteip(localStorage.getItem(localKey.remoteip));
-
-      return service.doGetCities(dataRpc, null, (err, response) => {
-        const status = response?.toObject()?.status;
-        console.log(response?.toObject(), 'cities');
-        setCities({
-          isLoading: false,
-          ...cities
-        });
-
-        if (status === '000') {
-          const dataResponse = response?.toObject();
-          setCities({
-            isLoading: true,
-            isError: false,
-            data: dataResponse?.resultsList
-          });
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error!',
-            text: `Something went wrong! | ${status}`
-          });
-          setisLoading(false);
-          setisError(err?.toString());
-        }
-      });
-    } catch (err) {
-      Swal.fire('Error!', `${err?.response?.status} Something went wrong try again`, 'danger');
-      setCities({
-        isLoading: false,
-        isError: true,
-        data: []
-      });
-      setisError(err?.toString());
     }
   };
 
@@ -170,15 +123,64 @@ const AddListClient = () => {
           Swal.fire({
             icon: 'error',
             title: 'Error!',
-            text: `Something went wrong! | ${status}`
+            text: `Something went wrong! Error Get Province! | ${status}`
           });
           setisLoading(false);
           setisError(err?.toString());
         }
       });
     } catch (err) {
-      Swal.fire('Error!', `${err?.response?.status} Something went wrong try again`, 'danger');
+      Swal.fire('Error!', `${err?.response?.status} Something went wrong try again  Error Get Province`, 'danger');
       setProvinces({
+        isLoading: false,
+        isError: true,
+        data: []
+      });
+      setisError(err?.toString());
+    }
+  };
+
+  // Get city RPC
+  const onGetCityRpc = async (id) => {
+    setCities({
+      isLoading: true,
+      ...cities
+    });
+    try {
+      const dataRpc = new CitiesRequest();
+      dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
+      dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
+      dataRpc.setProvinceid(id);
+      dataRpc.setRemoteip(localStorage.getItem(localKey.remoteip));
+
+      return service.doGetCities(dataRpc, null, (err, response) => {
+        const status = response?.toObject()?.status;
+        console.log(response?.toObject(), 'cities');
+        setCities({
+          isLoading: false,
+          ...cities
+        });
+
+        if (status === '000') {
+          const dataResponse = response?.toObject();
+          setCities({
+            isLoading: true,
+            isError: false,
+            data: dataResponse?.resultsList
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: `Something went wrong! Error Get City | ${status}`
+          });
+          setisLoading(false);
+          setisError(err?.toString());
+        }
+      });
+    } catch (err) {
+      Swal.fire('Error!', `${err?.response?.status} Something went wrong try again  Error Get City `, 'danger');
+      setCities({
         isLoading: false,
         isError: true,
         data: []
@@ -189,7 +191,7 @@ const AddListClient = () => {
 
   useEffect(() => {
     onGetProvinceRpc();
-    onGetCityRpc();
+    // onGetCityRpc(id);
   }, []);
 
   const handleSubmit = (event) => {
@@ -261,7 +263,7 @@ const AddListClient = () => {
             >
               {provices.data.map((item) => {
                 return (
-                  <MenuItem key={item.provinceid} value={item.provinceid}>
+                  <MenuItem key={item.provinceid} value={item.provinceid} onClick={() => onGetCityRpc(item.provinceid)}>
                     {item.name}
                   </MenuItem>
                 );
