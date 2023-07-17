@@ -1,125 +1,153 @@
 import React, {useState} from 'react';
 import {TextField, Button, Card, CardContent} from '@mui/material';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import Swal from 'sweetalert2';
 
-const AddListClient = ({onAddClient}) => {
-  const [clientData, setClientData] = useState({
-    id: '',
+import localKey from 'constant';
+import {ClientAddRequest} from '../../../proto/webadmin_pb';
+import {service} from 'proto/service';
+
+const AddListClient = () => {
+  const [officeData, setOfficeData] = useState({
     name: '',
-    location: '',
-    date: '',
-    totalBalancePerDay: '',
-    totalBalancePerMonth: '',
-    employeeName: '',
-    totalGateParking: ''
+    address: '',
+    city: '',
+    province: '',
+    zipcode: '',
+    country: ''
   });
+  const [isLoading, setisLoading] = useState(false);
+  const [isError, setisError] = useState('');
+  const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const {name, value} = event.target;
-    setClientData((prevData) => ({
+    setOfficeData((prevData) => ({
       ...prevData,
       [name]: value
     }));
   };
 
+  const onSaveUserRpc = async () => {
+    setisLoading(true);
+    try {
+      const dataRpc = new ClientAddRequest();
+      dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
+      dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
+
+      dataRpc.setName(officeData.name);
+      dataRpc.setAddress(officeData.address);
+      dataRpc.setCity(officeData.city);
+      dataRpc.setProvince(officeData.province);
+      dataRpc.setZipcode(officeData.zipcode);
+      dataRpc.setCountry(officeData.country);
+      dataRpc.setRemoteip(localStorage.getItem(localKey.remoteip));
+
+      return service.doClientAdd(dataRpc, null, (err, response) => {
+        const status = response?.toObject()?.status;
+        setisLoading(false);
+        console.log(response?.toObject());
+
+        if (status === '000') {
+          navigate('/clients/add-client');
+          setisError('');
+          setOfficeData({
+            name: '',
+            address: '',
+            city: '',
+            province: '',
+            zipcode: '',
+            country: ''
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: `Something went wrong! | ${status}`
+          });
+          setisLoading(false);
+          setisError(err?.toString());
+        }
+      });
+    } catch (err) {
+      setisLoading(false);
+      setisError(err?.toString());
+      Swal.fire('Error!', `${isError} Something went wrong, try again`, 'danger');
+    }
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    onAddClient(clientData);
-    setClientData({
-      id: '',
-      name: '',
-      location: '',
-      date: '',
-      totalBalancePerDay: '',
-      totalBalancePerMonth: '',
-      employeeName: '',
-      totalGateParking: ''
-    });
+    onSaveUserRpc();
   };
 
   return (
     <div>
       <Card>
         <CardContent>
+          <h1>Add Admin/Officer</h1>
+
           <form onSubmit={handleSubmit}>
-            <TextField
-              label="ID"
-              name="id"
-              value={clientData.id}
-              onChange={handleInputChange}
-              required
-              fullWidth
-              sx={{marginBottom: '1rem'}}
-            />
             <TextField
               label="Name"
               name="name"
-              value={clientData.name}
+              value={officeData.name}
               onChange={handleInputChange}
               required
               fullWidth
               sx={{marginBottom: '1rem'}}
             />
             <TextField
-              label="Location"
-              name="location"
-              value={clientData.location}
+              label="Address"
+              name="address"
+              value={officeData.address}
               onChange={handleInputChange}
               required
               fullWidth
               sx={{marginBottom: '1rem'}}
             />
             <TextField
-              label="Date"
-              name="date"
-              value={clientData.date}
+              label="City"
+              name="city"
+              value={officeData.city}
               onChange={handleInputChange}
               required
               fullWidth
               sx={{marginBottom: '1rem'}}
             />
             <TextField
-              label="Total Balance Per Day (IDR)"
-              name="totalBalancePerDay"
-              value={clientData.totalBalancePerDay}
+              label="Province"
+              name="province"
+              value={officeData.province}
               onChange={handleInputChange}
               required
               fullWidth
               sx={{marginBottom: '1rem'}}
             />
             <TextField
-              label="Total Balance Per Month (IDR)"
-              name="totalBalancePerMonth"
-              value={clientData.totalBalancePerMonth}
+              label="Zip Code"
+              name="zipcode"
+              value={officeData.zipcode}
               onChange={handleInputChange}
               required
               fullWidth
               sx={{marginBottom: '1rem'}}
             />
             <TextField
-              label="Employee Name"
-              name="employeeName"
-              value={clientData.employeeName}
-              onChange={handleInputChange}
-              required
-              fullWidth
-              sx={{marginBottom: '1rem'}}
-            />
-            <TextField
-              label="Total Gate Parking"
-              name="totalGateParking"
-              value={clientData.totalGateParking}
+              label="Country"
+              name="country"
+              value={officeData.country}
               onChange={handleInputChange}
               required
               fullWidth
               sx={{marginBottom: '1rem'}}
             />
 
-            <Button type="submit" variant="contained" color="primary">
-              Add Client
+            <Button type="submit" disabled={isLoading} variant="contained" color="primary">
+              {isLoading ? 'Loading' : '  Add Office'}
             </Button>
-            <Link to={'/clients/list-clients'}>
-              <Button type="submit" variant="contained" color="inherit">
+            <Link to="/settings/officer">
+              <Button variant="contained" color="inherit">
                 Cancel
               </Button>
             </Link>

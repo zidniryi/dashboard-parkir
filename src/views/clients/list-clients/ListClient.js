@@ -186,7 +186,7 @@ const ListClient = () => {
               value={searchTerm}
               onChange={handleSearch}
             />
-            <Link to={'/settings/add-client'}>
+            <Link to={'/clients/add-client'}>
               <Button variant="contained" color="primary">
                 Add Client
               </Button>
