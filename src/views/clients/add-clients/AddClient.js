@@ -4,7 +4,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import localKey from 'constant';
-import {ClientAddRequest, CitiesRequest} from '../../../proto/webadmin_pb';
+import {ClientAddRequest, CitiesRequest, ProvincesRequest} from '../../../proto/webadmin_pb';
 import {service} from 'proto/service';
 
 const AddListClient = () => {
@@ -18,6 +18,12 @@ const AddListClient = () => {
   });
 
   const [cities, setCities] = useState({
+    data: [],
+    isLoading: false,
+    isError: false
+  });
+
+  const [provices, setProvinces] = useState({
     data: [],
     isLoading: false,
     isError: false
@@ -83,6 +89,7 @@ const AddListClient = () => {
     }
   };
 
+  // Get city RPC
   const onGetCityRpc = async () => {
     setCities({
       isLoading: true,
@@ -131,7 +138,57 @@ const AddListClient = () => {
     }
   };
 
+  // Get Province
+  const onGetProvinceRpc = async () => {
+    setProvinces({
+      isLoading: true,
+      ...provices
+    });
+    try {
+      const dataRpc = new ProvincesRequest();
+      dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
+      dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
+      dataRpc.setCountryid('ID');
+      dataRpc.setRemoteip(localStorage.getItem(localKey.remoteip));
+
+      return service.doGetProvinces(dataRpc, null, (err, response) => {
+        const status = response?.toObject()?.status;
+        console.log(response?.toObject(), 'cities');
+        setProvinces({
+          isLoading: false,
+          ...provices
+        });
+
+        if (status === '000') {
+          const dataResponse = response?.toObject();
+          setProvinces({
+            isLoading: true,
+            isError: false,
+            data: dataResponse?.resultsList
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: `Something went wrong! | ${status}`
+          });
+          setisLoading(false);
+          setisError(err?.toString());
+        }
+      });
+    } catch (err) {
+      Swal.fire('Error!', `${err?.response?.status} Something went wrong try again`, 'danger');
+      setProvinces({
+        isLoading: false,
+        isError: true,
+        data: []
+      });
+      setisError(err?.toString());
+    }
+  };
+
   useEffect(() => {
+    onGetProvinceRpc();
     onGetCityRpc();
   }, []);
 
@@ -183,7 +240,7 @@ const AddListClient = () => {
               fullWidth
               sx={{marginBottom: '1rem'}}
             /> */}
-            <TextField
+            {/* <TextField
               label="Province"
               name="province"
               value={officeData.province}
@@ -191,7 +248,25 @@ const AddListClient = () => {
               required
               fullWidth
               sx={{marginBottom: '1rem'}}
-            />
+            /> */}
+
+            <Select
+              label="Province"
+              fullWidth
+              sx={{marginBottom: '1rem'}}
+              name="province"
+              required
+              value={officeData.province}
+              onChange={handleInputChange}
+            >
+              {provices.data.map((item) => {
+                return (
+                  <MenuItem key={item.provinceid} value={item.provinceid}>
+                    {item.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
 
             <Select
               label="City"
