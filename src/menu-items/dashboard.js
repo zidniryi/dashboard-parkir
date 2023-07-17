@@ -1,8 +1,8 @@
 // assets
-import { IconDashboard } from '@tabler/icons';
+import {IconDashboard} from '@tabler/icons';
 
 // constant
-const icons = { IconDashboard };
+const icons = {IconDashboard};
 
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
 

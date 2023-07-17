@@ -11,24 +11,15 @@ const icons = {
 const clients = {
   id: 'clients',
   title: 'Clients',
-  caption: 'Clients',
   type: 'group',
   children: [
     {
-      id: 'clients',
-      title: 'Clients',
-      type: 'collapse',
+      id: 'clients1',
+      title: 'List Client',
+      type: 'item',
+      url: '/clients/list-clients',
       icon: icons.IconListNumbers,
-
-      children: [
-        {
-          id: 'clients1',
-          title: 'List Client',
-          type: 'item',
-          url: '/clients/list-clients',
-          target: false
-        }
-      ]
+      target: false
     }
   ]
 };

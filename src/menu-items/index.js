@@ -13,7 +13,7 @@ import settings from './setting';
 // };
 
 const menuItems = {
-  items: [dashboard, transaction, settings, clients]
+  items: [dashboard, clients, transaction, settings]
 };
 
 export default menuItems;

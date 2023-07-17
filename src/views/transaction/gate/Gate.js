@@ -200,7 +200,7 @@ const Gate = () => {
                 }
               }}
             />
-            <Link to={'/settings/add-officer'}>
+            <Link to={'/transaction/add-gate'}>
               <Button variant="contained" color="primary">
                 Add Gate
               </Button>
