@@ -134,7 +134,7 @@ const ListClient = () => {
       const dataRpc = new ClientDeleteRequest();
       dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
       dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
-      dataRpc.setTargetadminid(targetId);
+      dataRpc.setClientid(targetId);
       dataRpc.setRemoteip(localStorage.getItem(localKey.remoteip));
 
       return service.doClientDelete(dataRpc, null, (err, response) => {
