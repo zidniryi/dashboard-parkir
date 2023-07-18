@@ -238,7 +238,7 @@ const ListClient = () => {
                     <TableCell>
                       <Link to={'/clients/edit-client'} state={{data: item}}>
                         <Button variant="contained" color="secondary" size="small">
-                          Edit 2
+                          Edit
                         </Button>
                       </Link>
                     </TableCell>

@@ -47,10 +47,7 @@ const ListPlaces = () => {
       item.zipcode?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
       item.country?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
       item.type?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
-      item.category?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
-      item.gatein?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
-      item.gateout?.toLowerCase()?.includes(searchTerm?.toLowerCase()) ||
-      item.isactive?.toString()?.toLowerCase()?.includes(searchTerm?.toLowerCase())
+      item.category?.toLowerCase()?.includes(searchTerm?.toLowerCase())
   );
 
   const indexOfLastItem = currentPage * itemsPerPage;

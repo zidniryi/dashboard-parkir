@@ -1,21 +1,25 @@
 import React, {useState, useEffect} from 'react';
-import {TextField, Button, Card, CardContent, Select, MenuItem} from '@mui/material';
+import {TextField, Button, Card, CardContent, MenuItem, Select} from '@mui/material';
 import {Link, useNavigate} from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import localKey from 'constant';
-import {ClientAddRequest, CitiesRequest, ProvincesRequest, CountriesRequest} from '../../../proto/webadmin_pb';
+import {PlaceAddRequest, CitiesRequest, ProvincesRequest, CountriesRequest} from 'proto/webadmin_pb';
 import {service} from 'proto/service';
 
-const AddListClient = () => {
-  const [officeData, setOfficeData] = useState({
+const AddPlaces = () => {
+  const [placeData, setPlaceData] = useState({
     name: '',
     address: '',
     city: '',
     province: '',
     zipcode: '',
-    country: ''
+    country: '',
+    type: '',
+    category: ''
   });
+  const [isLoading, setisLoading] = useState(false);
+  const [isError, setisError] = useState('');
 
   const [countries, setCountries] = useState({
     data: [],
@@ -34,50 +38,46 @@ const AddListClient = () => {
     isLoading: false,
     isError: false
   });
-
-  const [isLoading, setisLoading] = useState(false);
-  const [isError, setisError] = useState('');
   const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const {name, value} = event.target;
-    setOfficeData((prevData) => ({
+    setPlaceData((prevData) => ({
       ...prevData,
       [name]: value
     }));
   };
 
-  const onSaveUserRpc = async () => {
+  const onSavePlaceRpc = async () => {
     setisLoading(true);
     try {
-      const dataRpc = new ClientAddRequest();
+      const dataRpc = new PlaceAddRequest();
       dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
       dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
+      dataRpc.setClientid('CLI0000001');
 
-      dataRpc.setName(officeData.name);
-      dataRpc.setAddress(officeData.address);
-      dataRpc.setCity(officeData.city);
-      dataRpc.setProvince(officeData.province);
-      dataRpc.setZipcode(officeData.zipcode);
-      dataRpc.setCountry(officeData.country);
+      dataRpc.setName(placeData.name);
+      dataRpc.setAddress(placeData.address);
+      dataRpc.setCity(placeData.city);
+      dataRpc.setProvince(placeData.province);
+      dataRpc.setZipcode(placeData.zipcode);
+      dataRpc.setLatitude(-6.17511);
+      dataRpc.setLongitude(106.865036);
+
+      dataRpc.setCountry(placeData.country);
+
+      dataRpc.setType(placeData.type);
+      dataRpc.setCategory(placeData.category);
       dataRpc.setRemoteip(localStorage.getItem(localKey.remoteip));
 
-      return service.doClientAdd(dataRpc, null, (err, response) => {
+      return service.doPlaceAdd(dataRpc, null, (err, response) => {
         const status = response?.toObject()?.status;
         setisLoading(false);
         console.log(response?.toObject());
 
         if (status === '000') {
-          navigate('/clients/list-clients');
+          navigate('/places/list-places');
           setisError('');
-          setOfficeData({
-            name: '',
-            address: '',
-            city: '',
-            province: '',
-            zipcode: '',
-            country: ''
-          });
         } else {
           Swal.fire({
             icon: 'error',
@@ -91,8 +91,24 @@ const AddListClient = () => {
     } catch (err) {
       setisLoading(false);
       setisError(err?.toString());
-      Swal.fire('Error!', `${isError} Something went wrong, try again`, 'danger');
+      Swal.fire('Error!', `${isError} Something went wrong try again`, 'danger');
     }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onSavePlaceRpc();
+    console.log(placeData, 'placeData');
+    setPlaceData({
+      name: '',
+      address: '',
+      city: '',
+      province: '',
+      zipcode: '',
+      country: '',
+      type: '',
+      category: ''
+    });
   };
 
   // Get Countries
@@ -241,25 +257,19 @@ const AddListClient = () => {
 
   useEffect(() => {
     onGetCountriesRpc();
-    // onGetCityRpc(id);
   }, []);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    onSaveUserRpc();
-  };
 
   return (
     <div>
       <Card>
         <CardContent>
-          <h1>Add Admin/Officer</h1>
+          <h1>Add Place</h1>
 
           <form onSubmit={handleSubmit}>
             <TextField
               label="Name"
               name="name"
-              value={officeData.name}
+              value={placeData.name}
               onChange={handleInputChange}
               required
               fullWidth
@@ -268,20 +278,19 @@ const AddListClient = () => {
             <TextField
               label="Address"
               name="address"
-              value={officeData.address}
+              value={placeData.address}
               onChange={handleInputChange}
               required
               fullWidth
               sx={{marginBottom: '1rem'}}
             />
-
             <Select
               label="Country"
               fullWidth
               sx={{marginBottom: '1rem'}}
               name="country"
               required
-              value={officeData.country}
+              value={placeData.country}
               onChange={handleInputChange}
             >
               {countries.data.map((item) => {
@@ -299,7 +308,7 @@ const AddListClient = () => {
               sx={{marginBottom: '1rem'}}
               name="province"
               required
-              value={officeData.province}
+              value={placeData.province}
               onChange={handleInputChange}
             >
               {provices.data.map((item) => {
@@ -317,7 +326,7 @@ const AddListClient = () => {
               sx={{marginBottom: '1rem'}}
               name="city"
               required
-              value={officeData.city}
+              value={placeData.city}
               onChange={handleInputChange}
             >
               {cities.data.map((item) => {
@@ -328,11 +337,55 @@ const AddListClient = () => {
                 );
               })}
             </Select>
-
+            {/* <TextField
+              label="City"
+              name="city"
+              value={placeData.city}
+              onChange={handleInputChange}
+              required
+              fullWidth
+              sx={{marginBottom: '1rem'}}
+            />
             <TextField
-              label="Zip Code"
+              label="Province"
+              name="province"
+              value={placeData.province}
+              onChange={handleInputChange}
+              required
+              fullWidth
+              sx={{marginBottom: '1rem'}}
+            /> */}
+            <TextField
+              label="Zipcode"
               name="zipcode"
-              value={officeData.zipcode}
+              value={placeData.zipcode}
+              onChange={handleInputChange}
+              required
+              fullWidth
+              sx={{marginBottom: '1rem'}}
+            />
+            {/* <TextField
+              label="Country"
+              name="country"
+              value={placeData.country}
+              onChange={handleInputChange}
+              required
+              fullWidth
+              sx={{marginBottom: '1rem'}}
+            /> */}
+            <TextField
+              label="Type"
+              name="type"
+              value={placeData.type}
+              onChange={handleInputChange}
+              required
+              fullWidth
+              sx={{marginBottom: '1rem'}}
+            />
+            <TextField
+              label="Category"
+              name="category"
+              value={placeData.category}
               onChange={handleInputChange}
               required
               fullWidth
@@ -340,9 +393,9 @@ const AddListClient = () => {
             />
 
             <Button type="submit" disabled={isLoading} variant="contained" color="primary">
-              {isLoading ? 'Loading' : '  Add Office'}
+              {isLoading ? 'Loading' : 'Add Place'}
             </Button>
-            <Link to="/settings/officer">
+            <Link to="/places/list-places">
               <Button variant="contained" color="inherit">
                 Cancel
               </Button>
@@ -354,4 +407,4 @@ const AddListClient = () => {
   );
 };
 
-export default AddListClient;
+export default AddPlaces;
