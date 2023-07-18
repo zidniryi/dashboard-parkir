@@ -2,6 +2,7 @@ import clients from './clients';
 import dashboard from './dashboard';
 import transaction from './transaction';
 import settings from './setting';
+import places from './places';
 
 // import utilities from './utilities';
 // import other from './other';
@@ -13,7 +14,7 @@ import settings from './setting';
 // };
 
 const menuItems = {
-  items: [dashboard, clients, transaction, settings]
+  items: [dashboard, clients, places, transaction, settings]
 };
 
 export default menuItems;
