@@ -32,6 +32,7 @@ const EditOfficer = Loadable(lazy(() => import('views/settings/officer/EditOffic
 // Clients
 const ListClient = Loadable(lazy(() => import('views/clients/list-clients/ListClient')));
 const AddClient = Loadable(lazy(() => import('views/clients/add-clients/AddClient')));
+const EditClient = Loadable(lazy(() => import('views/clients/add-clients/EditClient')));
 
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
@@ -214,6 +215,15 @@ const MainRoutes = {
         {
           path: 'add-client',
           element: <AddClient />
+        }
+      ]
+    },
+    {
+      path: 'clients',
+      children: [
+        {
+          path: 'edit-client',
+          element: <EditClient />
         }
       ]
     },
