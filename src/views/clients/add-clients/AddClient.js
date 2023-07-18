@@ -4,7 +4,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import localKey from 'constant';
-import {ClientAddRequest, CitiesRequest, ProvincesRequest} from '../../../proto/webadmin_pb';
+import {ClientAddRequest, CitiesRequest, ProvincesRequest, CountriesRequest} from '../../../proto/webadmin_pb';
 import {service} from 'proto/service';
 
 const AddListClient = () => {
@@ -17,13 +17,19 @@ const AddListClient = () => {
     country: ''
   });
 
-  const [cities, setCities] = useState({
+  const [countries, setCountries] = useState({
     data: [],
     isLoading: false,
     isError: false
   });
 
   const [provices, setProvinces] = useState({
+    data: [],
+    isLoading: false,
+    isError: false
+  });
+
+  const [cities, setCities] = useState({
     data: [],
     isLoading: false,
     isError: false
@@ -40,8 +46,6 @@ const AddListClient = () => {
       [name]: value
     }));
   };
-
-  console.log(officeData.province, 'Hello');
 
   const onSaveUserRpc = async () => {
     setisLoading(true);
@@ -91,8 +95,56 @@ const AddListClient = () => {
     }
   };
 
+  // Get Countries
+  const onGetCountriesRpc = async () => {
+    setCountries({
+      isLoading: true,
+      ...countries
+    });
+    try {
+      const dataRpc = new CountriesRequest();
+      dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
+      dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
+      dataRpc.setCountryid('');
+      dataRpc.setRemoteip(localStorage.getItem(localKey.remoteip));
+
+      return service.doGetCountries(dataRpc, null, (err, response) => {
+        const status = response?.toObject()?.status;
+        setCountries({
+          isLoading: false,
+          ...countries
+        });
+
+        if (status === '000') {
+          const dataResponse = response?.toObject();
+          setCountries({
+            isLoading: true,
+            isError: false,
+            data: dataResponse?.resultsList
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: `Something went wrong! Error Get Country! | ${status}`
+          });
+          setisLoading(false);
+          setisError(err?.toString());
+        }
+      });
+    } catch (err) {
+      Swal.fire('Error!', `${err?.response?.status} Something went wrong try again  Error Get Country`, 'danger');
+      setCountries({
+        isLoading: false,
+        isError: true,
+        data: []
+      });
+      setisError(err?.toString());
+    }
+  };
+
   // Get Province
-  const onGetProvinceRpc = async () => {
+  const onGetProvinceRpc = async (id) => {
     setProvinces({
       isLoading: true,
       ...provices
@@ -101,12 +153,11 @@ const AddListClient = () => {
       const dataRpc = new ProvincesRequest();
       dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
       dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
-      dataRpc.setCountryid('ID');
+      dataRpc.setCountryid(id || 'ID');
       dataRpc.setRemoteip(localStorage.getItem(localKey.remoteip));
 
       return service.doGetProvinces(dataRpc, null, (err, response) => {
         const status = response?.toObject()?.status;
-        console.log(response?.toObject(), 'cities');
         setProvinces({
           isLoading: false,
           ...provices
@@ -155,7 +206,6 @@ const AddListClient = () => {
 
       return service.doGetCities(dataRpc, null, (err, response) => {
         const status = response?.toObject()?.status;
-        console.log(response?.toObject(), 'cities');
         setCities({
           isLoading: false,
           ...cities
@@ -190,7 +240,7 @@ const AddListClient = () => {
   };
 
   useEffect(() => {
-    onGetProvinceRpc();
+    onGetCountriesRpc();
     // onGetCityRpc(id);
   }, []);
 
@@ -224,7 +274,7 @@ const AddListClient = () => {
               fullWidth
               sx={{marginBottom: '1rem'}}
             />
-            <TextField
+            {/* <TextField
               label="Country"
               name="country"
               value={officeData.country}
@@ -232,7 +282,7 @@ const AddListClient = () => {
               required
               fullWidth
               sx={{marginBottom: '1rem'}}
-            />
+            /> */}
             {/* <TextField
               label="City"
               name="city"
@@ -251,6 +301,24 @@ const AddListClient = () => {
               fullWidth
               sx={{marginBottom: '1rem'}}
             /> */}
+
+            <Select
+              label="Country"
+              fullWidth
+              sx={{marginBottom: '1rem'}}
+              name="country"
+              required
+              value={officeData.country}
+              onChange={handleInputChange}
+            >
+              {countries.data.map((item) => {
+                return (
+                  <MenuItem key={item.countryid} value={item.countryid} onClick={() => onGetProvinceRpc(item.countryid)}>
+                    {item.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
 
             <Select
               label="Province"
