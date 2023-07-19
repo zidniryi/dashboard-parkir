@@ -17,7 +17,7 @@ import {Link} from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import localKey from 'constant';
-import {GateViewRequest, GateToggleRequest, AdminUserDeleteRequest} from '../../../proto/webadmin_pb';
+import {GateViewRequest, GateToggleRequest, GateDeleteRequest} from '../../../proto/webadmin_pb';
 import {service} from 'proto/service';
 import Spinner from 'ui-component/Spinner';
 import ErrorPage from 'ui-component/ErrorPage';
@@ -80,7 +80,6 @@ const Gate = () => {
 
         if (status == '000') {
           const dataResponse = response?.toObject();
-          console.log(dataResponse?.resultsList, 'Here');
           setData(dataResponse?.resultsList);
           setisError('');
         } else {
@@ -137,16 +136,18 @@ const Gate = () => {
     }
   };
 
-  const onDeleteRpc = (targetId) => {
+  const onDeleteRpc = (clientid, placeid, gateid) => {
     try {
-      const dataRpc = new AdminUserDeleteRequest();
+      const dataRpc = new GateDeleteRequest();
       dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
       dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
-      dataRpc.setTargetadminid(targetId);
+      dataRpc.setClientid(clientid);
+      dataRpc.setPlaceid(placeid);
+      dataRpc.setGateid(gateid);
       dataRpc.setRemoteip(localStorage.getItem(localKey.remoteip));
 
       // new Promise((resolve, reject) => {
-      return service.doAdminUserDelete(dataRpc, null, (err, response) => {
+      return service.doGateDelete(dataRpc, null, (err, response) => {
         const status = response?.toObject()?.status;
 
         if (status == '000') {
@@ -168,7 +169,7 @@ const Gate = () => {
     }
   };
 
-  const onDeleteAlert = (data) => {
+  const onDeleteAlert = (item) => {
     Swal.fire({
       title: 'Are you sure?',
       text: `Delete this ${data.adminid}`,
@@ -179,7 +180,7 @@ const Gate = () => {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        onDeleteRpc(data.adminid);
+        onDeleteRpc(item?.clientid, item?.placeid, item?.gateid);
       }
     });
   };
@@ -198,7 +199,6 @@ const Gate = () => {
               onKeyPress={(event) => {
                 if (event.key === 'Enter') {
                   handleSearch(event);
-                  console.log(searchTerm, 'searchTerm');
                 }
               }}
             />

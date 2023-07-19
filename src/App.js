@@ -26,7 +26,6 @@ const App = () => {
     if (location) {
       location.getCurrentPosition(
         (position) => {
-          console.log(position.coords.latitude);
           localStorage.setItem(localKey.latitude, position.coords.latitude);
           localStorage.setItem(localKey.longitude, position.coords.longitude);
         },
