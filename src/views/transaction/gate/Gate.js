@@ -17,7 +17,7 @@ import {Link} from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import localKey from 'constant';
-import {GateViewRequest, AdminUserToggleRequest, AdminUserDeleteRequest} from '../../../proto/webadmin_pb';
+import {GateViewRequest, GateToggleRequest, AdminUserDeleteRequest} from '../../../proto/webadmin_pb';
 import {service} from 'proto/service';
 import Spinner from 'ui-component/Spinner';
 import ErrorPage from 'ui-component/ErrorPage';
@@ -104,16 +104,18 @@ const Gate = () => {
     onGetGateListRpc();
   }, []);
 
-  const onChangeSwitchRpc = (targetId) => {
+  const onChangeSwitchRpc = (clientid, placeid, gateid) => {
     try {
-      const dataRpc = new AdminUserToggleRequest();
+      const dataRpc = new GateToggleRequest();
       dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
       dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
-      dataRpc.setTargetadminid(targetId);
+      dataRpc.setClientid(clientid);
+      dataRpc.setPlaceid(placeid);
+      dataRpc.setGateid(gateid);
       dataRpc.setRemoteip(localStorage.getItem(localKey.remoteip));
 
       // new Promise((resolve, reject) => {
-      return service.doAdminUserToggle(dataRpc, null, (err, response) => {
+      return service.doGateToggle(dataRpc, null, (err, response) => {
         const status = response?.toObject()?.status;
 
         if (status == '000') {
@@ -230,7 +232,7 @@ const Gate = () => {
               </TableHead>
               <TableBody>
                 {currentItems.map((item) => (
-                  <TableRow key={item?.clientid}>
+                  <TableRow key={item?.gateid}>
                     <TableCell>{item?.clientid}</TableCell>
                     <TableCell>{item?.placeid}</TableCell>
                     <TableCell>{item?.gateid}</TableCell>
@@ -250,7 +252,7 @@ const Gate = () => {
                     <TableCell>
                       <Switch
                         checked={item?.isactive}
-                        onChange={() => onChangeSwitchRpc(item?.adminid)}
+                        onChange={() => onChangeSwitchRpc(item?.clientid, item?.placeid, item?.gateid)}
                         inputProps={{'aria-label': 'controlled'}}
                       />
                     </TableCell>
