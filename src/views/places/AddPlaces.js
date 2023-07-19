@@ -61,8 +61,8 @@ const AddPlaces = () => {
       dataRpc.setCity(placeData.city);
       dataRpc.setProvince(placeData.province);
       dataRpc.setZipcode(placeData.zipcode);
-      dataRpc.setLatitude(-6.17511);
-      dataRpc.setLongitude(106.865036);
+      dataRpc.setLatitude(localStorage.getItem(localKey.latitude));
+      dataRpc.setLongitude(localStorage.getItem(localKey.longitude));
 
       dataRpc.setCountry(placeData.country);
 
@@ -373,7 +373,7 @@ const AddPlaces = () => {
               fullWidth
               sx={{marginBottom: '1rem'}}
             /> */}
-            <TextField
+            {/* <TextField
               label="Type"
               name="type"
               value={placeData.type}
@@ -381,8 +381,22 @@ const AddPlaces = () => {
               required
               fullWidth
               sx={{marginBottom: '1rem'}}
-            />
-            <TextField
+            /> */}
+
+            <Select
+              label="Type"
+              fullWidth
+              sx={{marginBottom: '1rem'}}
+              name="type"
+              required
+              value={placeData.type}
+              onChange={handleInputChange}
+              defaultValue="TICKET"
+            >
+              <MenuItem value="MEMBER">MEMBER</MenuItem>
+              <MenuItem value="TICKET">TICKET</MenuItem>
+            </Select>
+            {/* <TextField
               label="Category"
               name="category"
               value={placeData.category}
@@ -390,7 +404,20 @@ const AddPlaces = () => {
               required
               fullWidth
               sx={{marginBottom: '1rem'}}
-            />
+            /> */}
+
+            <Select
+              label="Category"
+              fullWidth
+              sx={{marginBottom: '1rem'}}
+              name="category"
+              required
+              value={placeData.category}
+              onChange={handleInputChange}
+              defaultValue="CLUSTER"
+            >
+              <MenuItem value="CLUSTER">CLUSTER</MenuItem>
+            </Select>
 
             <Button type="submit" disabled={isLoading} variant="contained" color="primary">
               {isLoading ? 'Loading' : 'Add Place'}
