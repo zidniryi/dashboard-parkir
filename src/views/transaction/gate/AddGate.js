@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
-import {TextField, Button, Card, CardContent, MenuItem} from '@mui/material';
+import React, {useState, useEffect} from 'react';
+import {TextField, Button, Card, CardContent, MenuItem, InputLabel, Select} from '@mui/material';
 import {Link, useNavigate} from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import localKey from 'constant';
-import {GateAddRequest} from '../../../proto/webadmin_pb';
+import {GateAddRequest, PlacesRequest} from '../../../proto/webadmin_pb';
 import {service} from 'proto/service';
 
 const AddGate = () => {
@@ -14,6 +14,12 @@ const AddGate = () => {
     location: '',
     access: '',
     type: ''
+  });
+
+  const [placeData, setPlaceData] = useState({
+    data: [],
+    isLoading: false,
+    isError: false
   });
   const [isLoading, setisLoading] = useState(false);
   const [isError, setisError] = useState('');
@@ -33,8 +39,9 @@ const AddGate = () => {
       const dataRpc = new GateAddRequest();
       dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
       dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
+      dataRpc.setClientid(gateData?.placeid?.clientid);
+      dataRpc.setPlaceid(gateData?.placeid?.placeid);
 
-      dataRpc.setPlaceid(gateData.placeid);
       dataRpc.setName(gateData.name);
       dataRpc.setLocation(gateData.location);
       dataRpc.setAccess(gateData.access);
@@ -44,10 +51,10 @@ const AddGate = () => {
       return service.doGateAdd(dataRpc, null, (err, response) => {
         const status = response?.toObject()?.status;
         setisLoading(false);
-        console.log(response?.toObject());
+        console.log(response?.toObject(), 'whaat');
 
         if (status === '000') {
-          navigate('/transaction/gate');
+          navigate('/gates/list-gate');
           setisError('');
           setGateData({
             placeid: '',
@@ -79,6 +86,60 @@ const AddGate = () => {
     console.log(gateData, 'gateData');
   };
 
+  console.log(gateData?.placeid, 'gateData?.placeid');
+
+  const onGetClientDataRpc = async () => {
+    setPlaceData({
+      isLoading: true,
+      ...placeData
+    });
+    try {
+      const dataRpc = new PlacesRequest();
+      dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
+      dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
+      dataRpc.setClientid('');
+      dataRpc.setRemoteip(localStorage.getItem(localKey.remoteip));
+
+      return service.doGetPlaces(dataRpc, null, (err, response) => {
+        const status = response?.toObject()?.status;
+        console.log(response?.toObject(), 'Heyy');
+        setPlaceData({
+          isLoading: false,
+          ...placeData
+        });
+
+        if (status === '000') {
+          const dataResponse = response?.toObject();
+          setPlaceData({
+            isLoading: true,
+            isError: false,
+            data: dataResponse?.resultsList
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: `Something went wrong! Error Get Place List ID! | ${status}`
+          });
+          setisLoading(false);
+          setisError(err?.toString());
+        }
+      });
+    } catch (err) {
+      Swal.fire('Error!', `${err?.response?.status} Something went wrong try again  Error Get Place List ID`, 'danger');
+      setPlaceData({
+        isLoading: false,
+        isError: true,
+        data: []
+      });
+      setisError(err?.toString());
+    }
+  };
+
+  useEffect(() => {
+    onGetClientDataRpc();
+  }, []);
+
   return (
     <div>
       <Card>
@@ -86,15 +147,27 @@ const AddGate = () => {
           <h1>Add Gate</h1>
 
           <form onSubmit={handleSubmit}>
-            <TextField
+            <InputLabel id="demo-simple-select-label">Place Name</InputLabel>
+            <Select
+              placeholder="Place ID"
               label="Place ID"
-              name="placeid"
-              value={gateData.placeid}
-              onChange={handleInputChange}
-              required
               fullWidth
               sx={{marginBottom: '1rem'}}
-            />
+              name="placeid"
+              required
+              value={gateData.placeid}
+              onChange={handleInputChange}
+            >
+              {placeData.data.map((item) => {
+                return (
+                  <MenuItem key={item.placeid} value={item}>
+                    {item.placename}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+            <InputLabel id="demo-simple-select-label"> Name</InputLabel>
+
             <TextField
               label="Name"
               name="name"
@@ -104,6 +177,8 @@ const AddGate = () => {
               fullWidth
               sx={{marginBottom: '1rem'}}
             />
+            <InputLabel id="demo-simple-select-label"> Location</InputLabel>
+
             <TextField
               label="Location"
               name="location"
@@ -113,6 +188,8 @@ const AddGate = () => {
               fullWidth
               sx={{marginBottom: '1rem'}}
             />
+            <InputLabel id="demo-simple-select-label"> Access</InputLabel>
+
             <TextField
               select
               label="Access"
@@ -126,6 +203,8 @@ const AddGate = () => {
               <MenuItem value="IN">IN</MenuItem>
               <MenuItem value="OUT">OUT</MenuItem>
             </TextField>
+            <InputLabel id="demo-simple-select-label"> Type</InputLabel>
+
             <TextField
               select
               label="Type"
