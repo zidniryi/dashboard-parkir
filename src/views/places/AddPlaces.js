@@ -1,14 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import {TextField, Button, Card, CardContent, MenuItem, Select} from '@mui/material';
+import {TextField, Button, Card, CardContent, MenuItem, Select, InputLabel} from '@mui/material';
 import {Link, useNavigate} from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import localKey from 'constant';
-import {PlaceAddRequest, CitiesRequest, ProvincesRequest, CountriesRequest} from 'proto/webadmin_pb';
+import {PlaceAddRequest, CitiesRequest, ProvincesRequest, CountriesRequest, ClientsRequest} from 'proto/webadmin_pb';
 import {service} from 'proto/service';
 
 const AddPlaces = () => {
   const [placeData, setPlaceData] = useState({
+    clientId: '',
     name: '',
     address: '',
     city: '',
@@ -38,6 +39,12 @@ const AddPlaces = () => {
     isLoading: false,
     isError: false
   });
+
+  const [clientData, setClientData] = useState({
+    data: [],
+    isLoading: false,
+    isError: false
+  });
   const navigate = useNavigate();
 
   const handleInputChange = (event) => {
@@ -54,7 +61,7 @@ const AddPlaces = () => {
       const dataRpc = new PlaceAddRequest();
       dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
       dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
-      dataRpc.setClientid('CLI0000001');
+      dataRpc.setClientid(placeData.clientId);
 
       dataRpc.setName(placeData.name);
       dataRpc.setAddress(placeData.address);
@@ -109,6 +116,53 @@ const AddPlaces = () => {
       type: '',
       category: ''
     });
+  };
+
+  // Get Clients
+  const onGetClientDataRpc = async () => {
+    setClientData({
+      isLoading: true,
+      ...clientData
+    });
+    try {
+      const dataRpc = new ClientsRequest();
+      dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
+      dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
+      dataRpc.setRemoteip(localStorage.getItem(localKey.remoteip));
+
+      return service.doGetClients(dataRpc, null, (err, response) => {
+        const status = response?.toObject()?.status;
+        setClientData({
+          isLoading: false,
+          ...clientData
+        });
+
+        if (status === '000') {
+          const dataResponse = response?.toObject();
+          setClientData({
+            isLoading: true,
+            isError: false,
+            data: dataResponse?.resultsList
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: `Something went wrong! Error Get Country! | ${status}`
+          });
+          setisLoading(false);
+          setisError(err?.toString());
+        }
+      });
+    } catch (err) {
+      Swal.fire('Error!', `${err?.response?.status} Something went wrong try again  Error Get Country`, 'danger');
+      setClientData({
+        isLoading: false,
+        isError: true,
+        data: []
+      });
+      setisError(err?.toString());
+    }
   };
 
   // Get Countries
@@ -257,6 +311,7 @@ const AddPlaces = () => {
 
   useEffect(() => {
     onGetCountriesRpc();
+    onGetClientDataRpc();
   }, []);
 
   return (
@@ -266,6 +321,26 @@ const AddPlaces = () => {
           <h1>Add Place</h1>
 
           <form onSubmit={handleSubmit}>
+            <InputLabel id="demo-simple-select-label">Client Name</InputLabel>
+            <Select
+              placeholder="Client ID"
+              label="ClientId"
+              fullWidth
+              sx={{marginBottom: '1rem'}}
+              name="clientId"
+              required
+              value={placeData.clientId}
+              onChange={handleInputChange}
+            >
+              {clientData.data.map((item) => {
+                return (
+                  <MenuItem key={item.clientid} value={item.clientid}>
+                    {item.clientname}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+            <InputLabel id="demo-simple-select-label"> Name</InputLabel>
             <TextField
               label="Name"
               name="name"
@@ -275,6 +350,7 @@ const AddPlaces = () => {
               fullWidth
               sx={{marginBottom: '1rem'}}
             />
+            <InputLabel id="demo-simple-select-label">Address</InputLabel>
             <TextField
               label="Address"
               name="address"
@@ -284,7 +360,10 @@ const AddPlaces = () => {
               fullWidth
               sx={{marginBottom: '1rem'}}
             />
+            <InputLabel id="demo-simple-select-label">Country</InputLabel>
+
             <Select
+              placeholder="Country"
               label="Country"
               fullWidth
               sx={{marginBottom: '1rem'}}
@@ -301,8 +380,9 @@ const AddPlaces = () => {
                 );
               })}
             </Select>
-
+            <InputLabel id="demo-simple-select-label">Province</InputLabel>
             <Select
+              placeholder="Province"
               label="Province"
               fullWidth
               sx={{marginBottom: '1rem'}}
@@ -319,7 +399,7 @@ const AddPlaces = () => {
                 );
               })}
             </Select>
-
+            <InputLabel id="demo-simple-select-label">City</InputLabel>
             <Select
               label="City"
               fullWidth
@@ -337,24 +417,7 @@ const AddPlaces = () => {
                 );
               })}
             </Select>
-            {/* <TextField
-              label="City"
-              name="city"
-              value={placeData.city}
-              onChange={handleInputChange}
-              required
-              fullWidth
-              sx={{marginBottom: '1rem'}}
-            />
-            <TextField
-              label="Province"
-              name="province"
-              value={placeData.province}
-              onChange={handleInputChange}
-              required
-              fullWidth
-              sx={{marginBottom: '1rem'}}
-            /> */}
+            <InputLabel id="demo-simple-select-label">Zipcode</InputLabel>
             <TextField
               label="Zipcode"
               name="zipcode"
@@ -364,25 +427,7 @@ const AddPlaces = () => {
               fullWidth
               sx={{marginBottom: '1rem'}}
             />
-            {/* <TextField
-              label="Country"
-              name="country"
-              value={placeData.country}
-              onChange={handleInputChange}
-              required
-              fullWidth
-              sx={{marginBottom: '1rem'}}
-            /> */}
-            {/* <TextField
-              label="Type"
-              name="type"
-              value={placeData.type}
-              onChange={handleInputChange}
-              required
-              fullWidth
-              sx={{marginBottom: '1rem'}}
-            /> */}
-
+            <InputLabel id="demo-simple-select-label">Type</InputLabel>
             <Select
               label="Type"
               fullWidth
@@ -396,16 +441,7 @@ const AddPlaces = () => {
               <MenuItem value="MEMBER">MEMBER</MenuItem>
               <MenuItem value="TICKET">TICKET</MenuItem>
             </Select>
-            {/* <TextField
-              label="Category"
-              name="category"
-              value={placeData.category}
-              onChange={handleInputChange}
-              required
-              fullWidth
-              sx={{marginBottom: '1rem'}}
-            /> */}
-
+            <InputLabel id="demo-simple-select-label">Category</InputLabel>
             <Select
               label="Category"
               fullWidth
