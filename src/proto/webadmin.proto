@@ -384,20 +384,23 @@ message PlaceViewRequest {
 message PlaceViewList {
   string clientid = 1;
   string placeid = 2;
-  string clientname = 3;
-  string placename = 4;
-  string address = 5;
-  string city = 6;
-  string province = 7;
-  string zipcode = 8;
-  string country = 9;
-  double latitude = 10;
-  double longitude = 11;
-  string type = 12;
-  string category = 13;
-  double gatein = 14;
-  double gateout = 15;
-  bool isactive = 16;
+  string cityid = 3;
+  string provinceid = 4;
+  string countryid = 5;
+  string clientname = 6;
+  string placename = 7;
+  string address = 8;
+  string city = 9;
+  string province = 10;
+  string zipcode = 11;
+  string country = 12;
+  double latitude = 13;
+  double longitude = 14;
+  string type = 15;
+  string category = 16;
+  double gatein = 17;
+  double gateout = 18;
+  bool isactive = 19;
 }
 message PlaceViewResponse {
   string status = 1;

@@ -262,9 +262,9 @@ const ListPlaces = () => {
                       </Button>
                     </TableCell>
                     <TableCell>
-                      <Link to={{pathname: '/places/edit-place', state: {data: item}}}>
+                      <Link to={'/places/edit-place'} state={{data: item}}>
                         <Button variant="contained" color="secondary" size="small">
-                          Edit
+                          Edit 1
                         </Button>
                       </Link>
                     </TableCell>

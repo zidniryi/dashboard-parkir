@@ -37,6 +37,7 @@ const EditClient = Loadable(lazy(() => import('views/clients/add-clients/EditCli
 // PLaces
 const ListPlaces = Loadable(lazy(() => import('views/places/ListPlaces')));
 const AddPlaces = Loadable(lazy(() => import('views/places/AddPlaces')));
+const EditPlaces = Loadable(lazy(() => import('views/places/EditPlaces')));
 
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
@@ -237,6 +238,15 @@ const MainRoutes = {
         {
           path: 'add-place',
           element: <AddPlaces />
+        }
+      ]
+    },
+    {
+      path: 'places',
+      children: [
+        {
+          path: 'edit-place',
+          element: <EditPlaces />
         }
       ]
     },
