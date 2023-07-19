@@ -277,14 +277,17 @@ message ClientViewRequest {
 }
 message ClientViewList {
   string clientid = 1;
-  string name = 2;
-  string address = 3;
-  string city = 4;
-  string province = 5;
-  string zipcode = 6;
-  string country = 7;
-  double totalplace = 8;
-  bool isactive = 9;
+  string cityid = 2;
+  string provinceid = 3;
+  string countryid = 4;
+  string name = 5;
+  string address = 6;
+  string city = 7;
+  string province = 8;
+  string zipcode = 9;
+  string country = 10;
+  double totalplace = 11;
+  bool isactive = 12;
 }
 message ClientViewResponse {
   string status = 1;
@@ -736,6 +739,7 @@ message PriceViewList {
   double duration3 = 8;
   double price3 = 9;
   double price4 = 10;
+  double fee = 11;
 }
 message PriceViewResponse {
   string status = 1;
@@ -756,6 +760,7 @@ message PriceEditRequest {
   double duration3 = 11;
   double price3 = 12;
   double price4 = 13;
+  double fee = 14;
 }
 message PriceEditList {
   string priceid = 1;
@@ -769,6 +774,7 @@ message PriceEditList {
   double price3 = 9;
   double duration4 = 10;
   double price4 = 11;
+  double fee = 12;
 }
 message PriceEditResponse {
   string status = 1;

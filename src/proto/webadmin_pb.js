@@ -13428,14 +13428,17 @@ proto.Webadmin.ClientViewList.prototype.toObject = function(opt_includeInstance)
 proto.Webadmin.ClientViewList.toObject = function(includeInstance, msg) {
   var f, obj = {
     clientid: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    name: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    address: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    city: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    province: jspb.Message.getFieldWithDefault(msg, 5, ""),
-    zipcode: jspb.Message.getFieldWithDefault(msg, 6, ""),
-    country: jspb.Message.getFieldWithDefault(msg, 7, ""),
-    totalplace: jspb.Message.getFloatingPointFieldWithDefault(msg, 8, 0.0),
-    isactive: jspb.Message.getBooleanFieldWithDefault(msg, 9, false)
+    cityid: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    provinceid: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    countryid: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    name: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    address: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    city: jspb.Message.getFieldWithDefault(msg, 7, ""),
+    province: jspb.Message.getFieldWithDefault(msg, 8, ""),
+    zipcode: jspb.Message.getFieldWithDefault(msg, 9, ""),
+    country: jspb.Message.getFieldWithDefault(msg, 10, ""),
+    totalplace: jspb.Message.getFloatingPointFieldWithDefault(msg, 11, 0.0),
+    isactive: jspb.Message.getBooleanFieldWithDefault(msg, 12, false)
   };
 
   if (includeInstance) {
@@ -13478,33 +13481,45 @@ proto.Webadmin.ClientViewList.deserializeBinaryFromReader = function(msg, reader
       break;
     case 2:
       var value = /** @type {string} */ (reader.readString());
-      msg.setName(value);
+      msg.setCityid(value);
       break;
     case 3:
       var value = /** @type {string} */ (reader.readString());
-      msg.setAddress(value);
+      msg.setProvinceid(value);
       break;
     case 4:
       var value = /** @type {string} */ (reader.readString());
-      msg.setCity(value);
+      msg.setCountryid(value);
       break;
     case 5:
       var value = /** @type {string} */ (reader.readString());
-      msg.setProvince(value);
+      msg.setName(value);
       break;
     case 6:
       var value = /** @type {string} */ (reader.readString());
-      msg.setZipcode(value);
+      msg.setAddress(value);
       break;
     case 7:
       var value = /** @type {string} */ (reader.readString());
-      msg.setCountry(value);
+      msg.setCity(value);
       break;
     case 8:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setProvince(value);
+      break;
+    case 9:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setZipcode(value);
+      break;
+    case 10:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setCountry(value);
+      break;
+    case 11:
       var value = /** @type {number} */ (reader.readDouble());
       msg.setTotalplace(value);
       break;
-    case 9:
+    case 12:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setIsactive(value);
       break;
@@ -13544,59 +13559,80 @@ proto.Webadmin.ClientViewList.serializeBinaryToWriter = function(message, writer
       f
     );
   }
-  f = message.getName();
+  f = message.getCityid();
   if (f.length > 0) {
     writer.writeString(
       2,
       f
     );
   }
-  f = message.getAddress();
+  f = message.getProvinceid();
   if (f.length > 0) {
     writer.writeString(
       3,
       f
     );
   }
-  f = message.getCity();
+  f = message.getCountryid();
   if (f.length > 0) {
     writer.writeString(
       4,
       f
     );
   }
-  f = message.getProvince();
+  f = message.getName();
   if (f.length > 0) {
     writer.writeString(
       5,
       f
     );
   }
-  f = message.getZipcode();
+  f = message.getAddress();
   if (f.length > 0) {
     writer.writeString(
       6,
       f
     );
   }
-  f = message.getCountry();
+  f = message.getCity();
   if (f.length > 0) {
     writer.writeString(
       7,
       f
     );
   }
+  f = message.getProvince();
+  if (f.length > 0) {
+    writer.writeString(
+      8,
+      f
+    );
+  }
+  f = message.getZipcode();
+  if (f.length > 0) {
+    writer.writeString(
+      9,
+      f
+    );
+  }
+  f = message.getCountry();
+  if (f.length > 0) {
+    writer.writeString(
+      10,
+      f
+    );
+  }
   f = message.getTotalplace();
   if (f !== 0.0) {
     writer.writeDouble(
-      8,
+      11,
       f
     );
   }
   f = message.getIsactive();
   if (f) {
     writer.writeBool(
-      9,
+      12,
       f
     );
   }
@@ -13622,10 +13658,10 @@ proto.Webadmin.ClientViewList.prototype.setClientid = function(value) {
 
 
 /**
- * optional string name = 2;
+ * optional string cityid = 2;
  * @return {string}
  */
-proto.Webadmin.ClientViewList.prototype.getName = function() {
+proto.Webadmin.ClientViewList.prototype.getCityid = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
 };
 
@@ -13634,16 +13670,16 @@ proto.Webadmin.ClientViewList.prototype.getName = function() {
  * @param {string} value
  * @return {!proto.Webadmin.ClientViewList} returns this
  */
-proto.Webadmin.ClientViewList.prototype.setName = function(value) {
+proto.Webadmin.ClientViewList.prototype.setCityid = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
 /**
- * optional string address = 3;
+ * optional string provinceid = 3;
  * @return {string}
  */
-proto.Webadmin.ClientViewList.prototype.getAddress = function() {
+proto.Webadmin.ClientViewList.prototype.getProvinceid = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
 };
 
@@ -13652,16 +13688,16 @@ proto.Webadmin.ClientViewList.prototype.getAddress = function() {
  * @param {string} value
  * @return {!proto.Webadmin.ClientViewList} returns this
  */
-proto.Webadmin.ClientViewList.prototype.setAddress = function(value) {
+proto.Webadmin.ClientViewList.prototype.setProvinceid = function(value) {
   return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
 /**
- * optional string city = 4;
+ * optional string countryid = 4;
  * @return {string}
  */
-proto.Webadmin.ClientViewList.prototype.getCity = function() {
+proto.Webadmin.ClientViewList.prototype.getCountryid = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
 };
 
@@ -13670,16 +13706,16 @@ proto.Webadmin.ClientViewList.prototype.getCity = function() {
  * @param {string} value
  * @return {!proto.Webadmin.ClientViewList} returns this
  */
-proto.Webadmin.ClientViewList.prototype.setCity = function(value) {
+proto.Webadmin.ClientViewList.prototype.setCountryid = function(value) {
   return jspb.Message.setProto3StringField(this, 4, value);
 };
 
 
 /**
- * optional string province = 5;
+ * optional string name = 5;
  * @return {string}
  */
-proto.Webadmin.ClientViewList.prototype.getProvince = function() {
+proto.Webadmin.ClientViewList.prototype.getName = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
 };
 
@@ -13688,16 +13724,16 @@ proto.Webadmin.ClientViewList.prototype.getProvince = function() {
  * @param {string} value
  * @return {!proto.Webadmin.ClientViewList} returns this
  */
-proto.Webadmin.ClientViewList.prototype.setProvince = function(value) {
+proto.Webadmin.ClientViewList.prototype.setName = function(value) {
   return jspb.Message.setProto3StringField(this, 5, value);
 };
 
 
 /**
- * optional string zipcode = 6;
+ * optional string address = 6;
  * @return {string}
  */
-proto.Webadmin.ClientViewList.prototype.getZipcode = function() {
+proto.Webadmin.ClientViewList.prototype.getAddress = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
 };
 
@@ -13706,16 +13742,16 @@ proto.Webadmin.ClientViewList.prototype.getZipcode = function() {
  * @param {string} value
  * @return {!proto.Webadmin.ClientViewList} returns this
  */
-proto.Webadmin.ClientViewList.prototype.setZipcode = function(value) {
+proto.Webadmin.ClientViewList.prototype.setAddress = function(value) {
   return jspb.Message.setProto3StringField(this, 6, value);
 };
 
 
 /**
- * optional string country = 7;
+ * optional string city = 7;
  * @return {string}
  */
-proto.Webadmin.ClientViewList.prototype.getCountry = function() {
+proto.Webadmin.ClientViewList.prototype.getCity = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 7, ""));
 };
 
@@ -13724,17 +13760,71 @@ proto.Webadmin.ClientViewList.prototype.getCountry = function() {
  * @param {string} value
  * @return {!proto.Webadmin.ClientViewList} returns this
  */
-proto.Webadmin.ClientViewList.prototype.setCountry = function(value) {
+proto.Webadmin.ClientViewList.prototype.setCity = function(value) {
   return jspb.Message.setProto3StringField(this, 7, value);
 };
 
 
 /**
- * optional double totalplace = 8;
+ * optional string province = 8;
+ * @return {string}
+ */
+proto.Webadmin.ClientViewList.prototype.getProvince = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 8, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.Webadmin.ClientViewList} returns this
+ */
+proto.Webadmin.ClientViewList.prototype.setProvince = function(value) {
+  return jspb.Message.setProto3StringField(this, 8, value);
+};
+
+
+/**
+ * optional string zipcode = 9;
+ * @return {string}
+ */
+proto.Webadmin.ClientViewList.prototype.getZipcode = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 9, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.Webadmin.ClientViewList} returns this
+ */
+proto.Webadmin.ClientViewList.prototype.setZipcode = function(value) {
+  return jspb.Message.setProto3StringField(this, 9, value);
+};
+
+
+/**
+ * optional string country = 10;
+ * @return {string}
+ */
+proto.Webadmin.ClientViewList.prototype.getCountry = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 10, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.Webadmin.ClientViewList} returns this
+ */
+proto.Webadmin.ClientViewList.prototype.setCountry = function(value) {
+  return jspb.Message.setProto3StringField(this, 10, value);
+};
+
+
+/**
+ * optional double totalplace = 11;
  * @return {number}
  */
 proto.Webadmin.ClientViewList.prototype.getTotalplace = function() {
-  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 8, 0.0));
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 11, 0.0));
 };
 
 
@@ -13743,16 +13833,16 @@ proto.Webadmin.ClientViewList.prototype.getTotalplace = function() {
  * @return {!proto.Webadmin.ClientViewList} returns this
  */
 proto.Webadmin.ClientViewList.prototype.setTotalplace = function(value) {
-  return jspb.Message.setProto3FloatField(this, 8, value);
+  return jspb.Message.setProto3FloatField(this, 11, value);
 };
 
 
 /**
- * optional bool isactive = 9;
+ * optional bool isactive = 12;
  * @return {boolean}
  */
 proto.Webadmin.ClientViewList.prototype.getIsactive = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 9, false));
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 12, false));
 };
 
 
@@ -13761,7 +13851,7 @@ proto.Webadmin.ClientViewList.prototype.getIsactive = function() {
  * @return {!proto.Webadmin.ClientViewList} returns this
  */
 proto.Webadmin.ClientViewList.prototype.setIsactive = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 9, value);
+  return jspb.Message.setProto3BooleanField(this, 12, value);
 };
 
 
@@ -28626,7 +28716,8 @@ proto.Webadmin.PriceViewList.toObject = function(includeInstance, msg) {
     price2: jspb.Message.getFloatingPointFieldWithDefault(msg, 7, 0.0),
     duration3: jspb.Message.getFloatingPointFieldWithDefault(msg, 8, 0.0),
     price3: jspb.Message.getFloatingPointFieldWithDefault(msg, 9, 0.0),
-    price4: jspb.Message.getFloatingPointFieldWithDefault(msg, 10, 0.0)
+    price4: jspb.Message.getFloatingPointFieldWithDefault(msg, 10, 0.0),
+    fee: jspb.Message.getFloatingPointFieldWithDefault(msg, 11, 0.0)
   };
 
   if (includeInstance) {
@@ -28702,6 +28793,10 @@ proto.Webadmin.PriceViewList.deserializeBinaryFromReader = function(msg, reader)
     case 10:
       var value = /** @type {number} */ (reader.readDouble());
       msg.setPrice4(value);
+      break;
+    case 11:
+      var value = /** @type {number} */ (reader.readDouble());
+      msg.setFee(value);
       break;
     default:
       reader.skipField();
@@ -28799,6 +28894,13 @@ proto.Webadmin.PriceViewList.serializeBinaryToWriter = function(message, writer)
   if (f !== 0.0) {
     writer.writeDouble(
       10,
+      f
+    );
+  }
+  f = message.getFee();
+  if (f !== 0.0) {
+    writer.writeDouble(
+      11,
       f
     );
   }
@@ -28982,6 +29084,24 @@ proto.Webadmin.PriceViewList.prototype.getPrice4 = function() {
  */
 proto.Webadmin.PriceViewList.prototype.setPrice4 = function(value) {
   return jspb.Message.setProto3FloatField(this, 10, value);
+};
+
+
+/**
+ * optional double fee = 11;
+ * @return {number}
+ */
+proto.Webadmin.PriceViewList.prototype.getFee = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 11, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.Webadmin.PriceViewList} returns this
+ */
+proto.Webadmin.PriceViewList.prototype.setFee = function(value) {
+  return jspb.Message.setProto3FloatField(this, 11, value);
 };
 
 
@@ -29219,7 +29339,8 @@ proto.Webadmin.PriceEditRequest.toObject = function(includeInstance, msg) {
     price2: jspb.Message.getFloatingPointFieldWithDefault(msg, 10, 0.0),
     duration3: jspb.Message.getFloatingPointFieldWithDefault(msg, 11, 0.0),
     price3: jspb.Message.getFloatingPointFieldWithDefault(msg, 12, 0.0),
-    price4: jspb.Message.getFloatingPointFieldWithDefault(msg, 13, 0.0)
+    price4: jspb.Message.getFloatingPointFieldWithDefault(msg, 13, 0.0),
+    fee: jspb.Message.getFloatingPointFieldWithDefault(msg, 14, 0.0)
   };
 
   if (includeInstance) {
@@ -29307,6 +29428,10 @@ proto.Webadmin.PriceEditRequest.deserializeBinaryFromReader = function(msg, read
     case 13:
       var value = /** @type {number} */ (reader.readDouble());
       msg.setPrice4(value);
+      break;
+    case 14:
+      var value = /** @type {number} */ (reader.readDouble());
+      msg.setFee(value);
       break;
     default:
       reader.skipField();
@@ -29425,6 +29550,13 @@ proto.Webadmin.PriceEditRequest.serializeBinaryToWriter = function(message, writ
   if (f !== 0.0) {
     writer.writeDouble(
       13,
+      f
+    );
+  }
+  f = message.getFee();
+  if (f !== 0.0) {
+    writer.writeDouble(
+      14,
       f
     );
   }
@@ -29665,6 +29797,24 @@ proto.Webadmin.PriceEditRequest.prototype.setPrice4 = function(value) {
 };
 
 
+/**
+ * optional double fee = 14;
+ * @return {number}
+ */
+proto.Webadmin.PriceEditRequest.prototype.getFee = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 14, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.Webadmin.PriceEditRequest} returns this
+ */
+proto.Webadmin.PriceEditRequest.prototype.setFee = function(value) {
+  return jspb.Message.setProto3FloatField(this, 14, value);
+};
+
+
 
 
 
@@ -29707,7 +29857,8 @@ proto.Webadmin.PriceEditList.toObject = function(includeInstance, msg) {
     duration3: jspb.Message.getFloatingPointFieldWithDefault(msg, 8, 0.0),
     price3: jspb.Message.getFloatingPointFieldWithDefault(msg, 9, 0.0),
     duration4: jspb.Message.getFloatingPointFieldWithDefault(msg, 10, 0.0),
-    price4: jspb.Message.getFloatingPointFieldWithDefault(msg, 11, 0.0)
+    price4: jspb.Message.getFloatingPointFieldWithDefault(msg, 11, 0.0),
+    fee: jspb.Message.getFloatingPointFieldWithDefault(msg, 12, 0.0)
   };
 
   if (includeInstance) {
@@ -29787,6 +29938,10 @@ proto.Webadmin.PriceEditList.deserializeBinaryFromReader = function(msg, reader)
     case 11:
       var value = /** @type {number} */ (reader.readDouble());
       msg.setPrice4(value);
+      break;
+    case 12:
+      var value = /** @type {number} */ (reader.readDouble());
+      msg.setFee(value);
       break;
     default:
       reader.skipField();
@@ -29891,6 +30046,13 @@ proto.Webadmin.PriceEditList.serializeBinaryToWriter = function(message, writer)
   if (f !== 0.0) {
     writer.writeDouble(
       11,
+      f
+    );
+  }
+  f = message.getFee();
+  if (f !== 0.0) {
+    writer.writeDouble(
+      12,
       f
     );
   }
@@ -30092,6 +30254,24 @@ proto.Webadmin.PriceEditList.prototype.getPrice4 = function() {
  */
 proto.Webadmin.PriceEditList.prototype.setPrice4 = function(value) {
   return jspb.Message.setProto3FloatField(this, 11, value);
+};
+
+
+/**
+ * optional double fee = 12;
+ * @return {number}
+ */
+proto.Webadmin.PriceEditList.prototype.getFee = function() {
+  return /** @type {number} */ (jspb.Message.getFloatingPointFieldWithDefault(this, 12, 0.0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.Webadmin.PriceEditList} returns this
+ */
+proto.Webadmin.PriceEditList.prototype.setFee = function(value) {
+  return jspb.Message.setProto3FloatField(this, 12, value);
 };
 
 
