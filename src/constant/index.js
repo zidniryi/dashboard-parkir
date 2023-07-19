@@ -3,7 +3,9 @@ const localKey = {
   remoteip: 'remoteip',
   sessionid: 'sessionid',
   username: 'username',
-  role: 'role'
+  role: 'role',
+  latitude: 'latitude',
+  longitude: 'longitude'
 };
 
 export default localKey;

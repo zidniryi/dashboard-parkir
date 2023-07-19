@@ -15,7 +15,7 @@ const places = {
   children: [
     {
       id: 'places1',
-      title: 'List Places',
+      title: 'Places',
       type: 'item',
       url: '/places/list-places',
       icon: icons.IconMap2,

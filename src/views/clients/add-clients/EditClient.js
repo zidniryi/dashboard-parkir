@@ -13,12 +13,11 @@ const EditListClient = () => {
   const [officeData, setOfficeData] = useState({
     name: dataPasing.name,
     address: dataPasing.address,
-    city: dataPasing.city,
-    province: dataPasing.province,
+    city: dataPasing.cityid,
+    province: dataPasing.provinceid,
     zipcode: dataPasing.zipcode,
-    country: dataPasing.country
+    country: dataPasing.countryid
   });
-  console.log(officeData, 'officeData');
 
   const [countries, setCountries] = useState({
     data: [],
@@ -68,7 +67,6 @@ const EditListClient = () => {
       return service.doClientAdd(dataRpc, null, (err, response) => {
         const status = response?.toObject()?.status;
         setisLoading(false);
-        console.log(response?.toObject());
 
         if (status === '000') {
           navigate('/clients/list-clients');
@@ -108,7 +106,7 @@ const EditListClient = () => {
       const dataRpc = new CountriesRequest();
       dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
       dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
-      dataRpc.setCountryid('');
+      dataRpc.setCountryid(dataPasing.countryid);
       dataRpc.setRemoteip(localStorage.getItem(localKey.remoteip));
 
       return service.doGetCountries(dataRpc, null, (err, response) => {
@@ -244,8 +242,8 @@ const EditListClient = () => {
 
   const getAllData = async () => {
     await onGetCountriesRpc();
-    await onGetProvinceRpc(officeData.province);
-    await onGetCityRpc(officeData.city);
+    await onGetProvinceRpc(dataPasing.countryid);
+    await onGetCityRpc(dataPasing.provinceid);
   };
 
   useEffect(() => {
@@ -293,7 +291,12 @@ const EditListClient = () => {
             >
               {countries.data.map((item) => {
                 return (
-                  <MenuItem key={item.countryid} value={item.countryid} onClick={() => onGetProvinceRpc(item.countryid)}>
+                  <MenuItem
+                    key={item.countryid}
+                    defaultValue={item.countryid}
+                    value={item.countryid}
+                    onClick={() => onGetProvinceRpc(item.countryid)}
+                  >
                     {item.name}
                   </MenuItem>
                 );
@@ -349,7 +352,7 @@ const EditListClient = () => {
             <Button type="submit" disabled={isLoading} variant="contained" color="primary">
               {isLoading ? 'Loading' : '  Add Office'}
             </Button>
-            <Link to="/settings/officer">
+            <Link to="/clients/list-clients">
               <Button variant="contained" color="inherit">
                 Cancel
               </Button>

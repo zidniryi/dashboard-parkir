@@ -15,7 +15,7 @@ const clients = {
   children: [
     {
       id: 'clients1',
-      title: 'List Client',
+      title: 'Clients',
       type: 'item',
       url: '/clients/list-clients',
       icon: icons.IconListNumbers,

@@ -20,6 +20,25 @@ import localKey from 'constant';
 const App = () => {
   const customization = useSelector((state) => state.customization);
 
+  function getMyLocation() {
+    const location = window.navigator && window.navigator.geolocation;
+
+    if (location) {
+      location.getCurrentPosition(
+        (position) => {
+          console.log(position.coords.latitude);
+          localStorage.setItem(localKey.latitude, position.coords.latitude);
+          localStorage.setItem(localKey.longitude, position.coords.longitude);
+        },
+        (error) => {
+          console.log('UserBlock Location');
+          localStorage.setItem(localKey.latitude, -7.3965511);
+          localStorage.setItem(localKey.longitude, 109.6982811);
+        }
+      );
+    }
+  }
+
   const getIp = async () => {
     try {
       const response = await fetch('https://ipapi.co/json/');
@@ -32,6 +51,7 @@ const App = () => {
   };
   useEffect(() => {
     getIp();
+    getMyLocation();
   }, []);
 
   return (

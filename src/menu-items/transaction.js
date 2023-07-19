@@ -34,13 +34,6 @@ const transaction = {
           type: 'item',
           url: '/transaction/register/register3',
           target: false
-        },
-        {
-          id: 'transaction3',
-          title: 'Gate',
-          type: 'item',
-          url: '/transaction/gate',
-          target: false
         }
       ]
     }

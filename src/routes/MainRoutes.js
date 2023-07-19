@@ -118,15 +118,6 @@ const MainRoutes = {
       path: 'transaction',
       children: [
         {
-          path: 'gate',
-          element: <Gate />
-        }
-      ]
-    },
-    {
-      path: 'transaction',
-      children: [
-        {
           path: 'add-gate',
           element: <AddGate />
         }
@@ -246,6 +237,15 @@ const MainRoutes = {
         {
           path: 'add-place',
           element: <AddPlaces />
+        }
+      ]
+    },
+    {
+      path: 'gates',
+      children: [
+        {
+          path: 'list-gate',
+          element: <Gate />
         }
       ]
     },
