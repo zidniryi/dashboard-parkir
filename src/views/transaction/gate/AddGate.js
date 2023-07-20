@@ -102,7 +102,7 @@ const AddGate = () => {
 
       return service.doGetPlaces(dataRpc, null, (err, response) => {
         const status = response?.toObject()?.status;
-        console.log(response?.toObject(), 'Heyy');
+        console.log(response?.toObject(), 'Heyy 22');
         setPlaceData({
           isLoading: false,
           ...placeData

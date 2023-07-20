@@ -1,24 +1,24 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import {Outlet} from 'react-router-dom';
 
 // material-ui
-import { styled, useTheme } from '@mui/material/styles';
-import { AppBar, Box, CssBaseline, Toolbar, useMediaQuery } from '@mui/material';
+import {styled, useTheme} from '@mui/material/styles';
+import {AppBar, Box, CssBaseline, Toolbar, useMediaQuery} from '@mui/material';
 
 // project imports
 import Breadcrumbs from 'ui-component/extended/Breadcrumbs';
 import Header from './Header';
 import Sidebar from './Sidebar';
-import Customization from '../Customization';
+// import Customization from '../Customization';
 import navigation from 'menu-items';
-import { drawerWidth } from 'store/constant';
-import { SET_MENU } from 'store/actions';
+import {drawerWidth} from 'store/constant';
+import {SET_MENU} from 'store/actions';
 
 // assets
-import { IconChevronRight } from '@tabler/icons';
+import {IconChevronRight} from '@tabler/icons';
 
 // styles
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
+const Main = styled('main', {shouldForwardProp: (prop) => prop !== 'open'})(({theme, open}) => ({
   ...theme.typography.mainContent,
   borderBottomLeftRadius: 0,
   borderBottomRightRadius: 0,
@@ -26,13 +26,13 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
     'margin',
     open
       ? {
-          easing: theme.transitions.easing.easeOut,
-          duration: theme.transitions.duration.enteringScreen
-        }
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen
+      }
       : {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.leavingScreen
-        }
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
+      }
   ),
   [theme.breakpoints.up('md')]: {
     marginLeft: open ? 0 : -(drawerWidth - 20),
@@ -60,11 +60,11 @@ const MainLayout = () => {
   const leftDrawerOpened = useSelector((state) => state.customization.opened);
   const dispatch = useDispatch();
   const handleLeftDrawerToggle = () => {
-    dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
+    dispatch({type: SET_MENU, opened: !leftDrawerOpened});
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{display: 'flex'}}>
       <CssBaseline />
       {/* header */}
       <AppBar
@@ -91,7 +91,7 @@ const MainLayout = () => {
         <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
         <Outlet />
       </Main>
-      <Customization />
+      {/* <Customization /> */}
     </Box>
   );
 };

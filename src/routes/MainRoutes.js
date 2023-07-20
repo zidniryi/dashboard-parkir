@@ -125,7 +125,7 @@ const MainRoutes = {
       ]
     },
     {
-      path: 'transaction',
+      path: 'gates',
       children: [
         {
           path: 'edit-gate',

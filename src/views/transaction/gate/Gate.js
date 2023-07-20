@@ -212,6 +212,7 @@ const Gate = () => {
             <Table>
               <TableHead>
                 <TableRow>
+                  <TableCell>Gate ID</TableCell>
                   <TableCell>Client ID</TableCell>
                   <TableCell>Place ID</TableCell>
                   <TableCell>Gate ID</TableCell>
@@ -233,6 +234,7 @@ const Gate = () => {
               <TableBody>
                 {currentItems.map((item) => (
                   <TableRow key={item?.gateid}>
+                    <TableCell>{item?.gateid}</TableCell>
                     <TableCell>{item?.clientid}</TableCell>
                     <TableCell>{item?.placeid}</TableCell>
                     <TableCell>{item?.gateid}</TableCell>
@@ -263,7 +265,7 @@ const Gate = () => {
                       </Button>
                     </TableCell>
                     <TableCell>
-                      <Link to={'/settings/edit-officer'} state={{data: item}}>
+                      <Link to={'/gates/edit-gate'} state={{data: item}}>
                         <Button variant="contained" color="secondary" size="small">
                           Edit
                         </Button>
