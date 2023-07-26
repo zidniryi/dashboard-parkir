@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import localKey from 'constant';
-import {PriceViewRequest, AdminUserDeleteRequest} from '../../../proto/webadmin_pb';
+import {PriceViewRequest, PriceDeleteRequest} from '../../../proto/webadmin_pb';
 import {service} from 'proto/service';
 import Spinner from 'ui-component/Spinner';
 import ErrorPage from 'ui-component/ErrorPage';
@@ -88,16 +88,17 @@ const ParkingRates = () => {
     onGetAdminListRpc();
   }, []);
 
-  const onDeleteRpc = (targetId) => {
+  const onDeleteRpc = (priceid, placeid) => {
     try {
-      const dataRpc = new AdminUserDeleteRequest();
+      const dataRpc = new PriceDeleteRequest();
       dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
       dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
-      dataRpc.setTargetadminid(targetId);
+      dataRpc.setPriceid(priceid);
+      dataRpc.setPlaceid(placeid);
       dataRpc.setRemoteip(localStorage.getItem(localKey.remoteip));
 
       // new Promise((resolve, reject) => {
-      return service.doAdminUserDelete(dataRpc, null, (err, response) => {
+      return service.doPriceReset(dataRpc, null, (err, response) => {
         const status = response?.toObject()?.status;
 
         if (status == '000') {
@@ -130,7 +131,7 @@ const ParkingRates = () => {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        onDeleteRpc(data.adminid);
+        onDeleteRpc(data.priceid, data.placeid);
       }
     });
   };
