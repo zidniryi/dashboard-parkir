@@ -4,7 +4,7 @@ import transaction from './transaction';
 import settings from './setting';
 import places from './places';
 import gates from './gates';
-
+import master from './master';
 
 // import utilities from './utilities';
 // import other from './other';
@@ -16,7 +16,7 @@ import gates from './gates';
 // };
 
 const menuItems = {
-  items: [dashboard, clients, places, gates, transaction, settings]
+  items: [dashboard, clients, places, gates, master, transaction, settings]
 };
 
 export default menuItems;

@@ -42,6 +42,8 @@ const EditPlaces = Loadable(lazy(() => import('views/places/EditPlaces')));
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 
+const MasterCategory = Loadable(lazy(() => import('views/master/MasterCategory')));
+
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -262,6 +264,15 @@ const MainRoutes = {
     {
       path: 'sample-page',
       element: <SamplePage />
+    },
+    {
+      path: 'master',
+      children: [
+        {
+          path: 'category',
+          element: <MasterCategory />
+        }
+      ]
     }
   ]
 };
