@@ -264,7 +264,7 @@ const ListPlaces = () => {
                     <TableCell>
                       <Link to={'/places/edit-place'} state={{data: item}}>
                         <Button variant="contained" color="secondary" size="small">
-                          Edit 1
+                          Edit
                         </Button>
                       </Link>
                     </TableCell>
