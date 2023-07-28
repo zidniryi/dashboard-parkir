@@ -129,9 +129,9 @@ const MasterCategory = () => {
         <CardContent>
           <div style={{marginBottom: '1rem', display: 'flex', justifyContent: 'space-between'}}>
             <TextField label="Search by Officer Name, Shift, role, or Parking Location" value={searchTerm} onChange={handleSearch} />
-            <Link to={'/settings/add-officer'}>
+            <Link to={'/master/add-category'}>
               <Button variant="contained" color="primary">
-                Add Officer
+                Add Category
               </Button>
             </Link>
           </div>
