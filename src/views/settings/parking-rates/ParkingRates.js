@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import localKey from 'constant';
-import {PriceViewRequest, PriceDeleteRequest} from '../../../proto/webadmin_pb';
+import {PriceViewRequest, PriceResetRequest} from '../../../proto/webadmin_pb';
 import {service} from 'proto/service';
 import Spinner from 'ui-component/Spinner';
 import ErrorPage from 'ui-component/ErrorPage';
@@ -90,7 +90,7 @@ const ParkingRates = () => {
 
   const onDeleteRpc = (priceid, placeid) => {
     try {
-      const dataRpc = new PriceDeleteRequest();
+      const dataRpc = new PriceResetRequest();
       dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
       dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
       dataRpc.setPriceid(priceid);
@@ -123,7 +123,7 @@ const ParkingRates = () => {
   const onDeleteAlert = (data) => {
     Swal.fire({
       title: 'Are you sure?',
-      text: `Delete this ${data.adminid}`,
+      text: `Delete this ${data.priceid}`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
