@@ -22,6 +22,8 @@ const EditGate = Loadable(lazy(() => import('views/transaction/gate/EditGate')))
 
 // Setting
 const ParkingRates = Loadable(lazy(() => import('views/settings/parking-rates/ParkingRates')));
+const EditPrice = Loadable(lazy(() => import('views/settings/parking-rates/EditPrice')));
+
 const FineRates = Loadable(lazy(() => import('views/settings/fine-rates/FineRates')));
 const Membership = Loadable(lazy(() => import('views/settings/membership/Membership')));
 const Payment = Loadable(lazy(() => import('views/settings/payment/Payment')));
@@ -141,6 +143,15 @@ const MainRoutes = {
         {
           path: 'parking-rates',
           element: <ParkingRates />
+        }
+      ]
+    },
+    {
+      path: 'settings',
+      children: [
+        {
+          path: 'edit-price',
+          element: <EditPrice />
         }
       ]
     },
