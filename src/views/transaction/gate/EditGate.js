@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react';
-import {TextField, Button, Card, CardContent, MenuItem, InputLabel, Select} from '@mui/material';
-import {Link, useLocation, useNavigate} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { TextField, Button, Card, CardContent, MenuItem, InputLabel, Select } from '@mui/material';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import localKey from 'constant';
-import {GateEditRequest, PlacesRequest} from '../../../proto/webadmin_pb';
-import {service} from 'proto/service';
+import { GateEditRequest, PlacesRequest } from '../../../proto/webadmin_pb';
+import { service } from 'proto/service';
 
 const EditGate = () => {
   const location = useLocation();
@@ -23,8 +23,6 @@ const EditGate = () => {
     type: dataPasing.type
   });
 
-  console.log(gateData.placeid);
-
   const [placeData, setPlaceData] = useState({
     data: [],
     isLoading: false,
@@ -35,7 +33,7 @@ const EditGate = () => {
   const navigate = useNavigate();
 
   const handleInputChange = (event) => {
-    const {name, value} = event.target;
+    const { name, value } = event.target;
 
     if (name === 'placeid') {
       setGateData((prevData) => ({
@@ -176,7 +174,7 @@ const EditGate = () => {
               placeholder="Place ID"
               label="Place ID"
               fullWidth
-              sx={{marginBottom: '1rem'}}
+              sx={{ marginBottom: '1rem' }}
               name="placeid"
               required
               value={gateData.placeid.placeid}
@@ -200,7 +198,7 @@ const EditGate = () => {
               onChange={handleInputChange}
               required
               fullWidth
-              sx={{marginBottom: '1rem'}}
+              sx={{ marginBottom: '1rem' }}
             />
             <InputLabel id="demo-simple-select-label"> Location</InputLabel>
 
@@ -211,7 +209,7 @@ const EditGate = () => {
               onChange={handleInputChange}
               required
               fullWidth
-              sx={{marginBottom: '1rem'}}
+              sx={{ marginBottom: '1rem' }}
             />
             <InputLabel id="demo-simple-select-label"> Access</InputLabel>
 
@@ -223,7 +221,7 @@ const EditGate = () => {
               onChange={handleInputChange}
               required
               fullWidth
-              sx={{marginBottom: '1rem'}}
+              sx={{ marginBottom: '1rem' }}
             >
               <MenuItem value="IN">IN</MenuItem>
               <MenuItem value="OUT">OUT</MenuItem>
@@ -238,7 +236,7 @@ const EditGate = () => {
               onChange={handleInputChange}
               required
               fullWidth
-              sx={{marginBottom: '1rem'}}
+              sx={{ marginBottom: '1rem' }}
             >
               <MenuItem value="RFID">RFID</MenuItem>
               <MenuItem value="TICKET">TICKET</MenuItem>

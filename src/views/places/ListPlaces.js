@@ -95,7 +95,6 @@ const ListPlaces = () => {
         }
       });
     } catch (err) {
-      console.log(err);
       Swal.fire('Error!', `${err?.response?.status} Something went wrong try again`, 'danger');
       setisLoading(false);
       setisError(err?.toString());

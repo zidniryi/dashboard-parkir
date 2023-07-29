@@ -48,7 +48,6 @@ const EditOfficer = () => {
       return service.doAdminUserEdit(dataRpc, null, (err, response) => {
         const status = response?.toObject()?.status;
         setisLoading(false);
-        console.log(response?.toObject());
 
         if (status == '000') {
           navigate('/settings/officer');

@@ -71,7 +71,6 @@ const ListClient = () => {
       return service.doClientView(dataRpc, null, (err, response) => {
         const status = response?.toObject()?.status;
         setisLoading(false);
-        console.log(response?.toObject(), 'Hello');
 
         if (status === '000') {
           const dataResponse = response?.toObject();
@@ -88,7 +87,6 @@ const ListClient = () => {
         }
       });
     } catch (err) {
-      console.log(err);
       Swal.fire('Error!', `${err?.response?.status} Something went wrong try again`, 'danger');
       setisLoading(false);
       setisError(err?.toString());

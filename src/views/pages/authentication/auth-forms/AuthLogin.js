@@ -68,7 +68,6 @@ const FirebaseLogin = ({...others}) => {
 
           window.location.reload();
         } else {
-          console.log(err);
           Swal.fire({
             icon: 'error',
             title: 'Error!',

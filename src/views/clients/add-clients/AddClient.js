@@ -65,7 +65,6 @@ const AddListClient = () => {
       return service.doClientAdd(dataRpc, null, (err, response) => {
         const status = response?.toObject()?.status;
         setisLoading(false);
-        console.log(response?.toObject());
 
         if (status === '000') {
           navigate('/clients/list-clients');

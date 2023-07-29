@@ -80,7 +80,6 @@ const AddPlaces = () => {
       return service.doPlaceAdd(dataRpc, null, (err, response) => {
         const status = response?.toObject()?.status;
         setisLoading(false);
-        console.log(response?.toObject());
 
         if (status === '000') {
           navigate('/places/list-places');
@@ -105,7 +104,6 @@ const AddPlaces = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     onSavePlaceRpc();
-    console.log(placeData, 'placeData');
     setPlaceData({
       name: '',
       address: '',

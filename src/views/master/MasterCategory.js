@@ -165,7 +165,7 @@ const MasterCategory = () => {
                     </TableCell>
 
                     <TableCell>
-                      <Link to={'/settings/edit-officer'} state={{data: item}}>
+                      <Link to={'/master/edit-category'} state={{data: item}}>
                         <Button variant="contained" color="secondary" size="small">
                           Edit
                         </Button>

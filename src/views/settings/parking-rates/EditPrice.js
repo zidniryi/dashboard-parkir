@@ -20,7 +20,6 @@ const EditPrice = () => {
     price3: dataPasing.price3 || '',
     price4: dataPasing.price4 || ''
   });
-  console.log(dataPasing);
 
   const [isLoading, setisLoading] = useState(false);
   const [isError, setisError] = useState('');

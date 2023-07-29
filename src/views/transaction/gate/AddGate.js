@@ -51,7 +51,6 @@ const AddGate = () => {
       return service.doGateAdd(dataRpc, null, (err, response) => {
         const status = response?.toObject()?.status;
         setisLoading(false);
-        console.log(response?.toObject(), 'whaat');
 
         if (status === '000') {
           navigate('/gates/list-gate');
@@ -83,10 +82,7 @@ const AddGate = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     onSaveGateRpc();
-    console.log(gateData, 'gateData');
   };
-
-  console.log(gateData?.placeid, 'gateData?.placeid');
 
   const onGetClientDataRpc = async () => {
     setPlaceData({
@@ -102,7 +98,6 @@ const AddGate = () => {
 
       return service.doGetPlaces(dataRpc, null, (err, response) => {
         const status = response?.toObject()?.status;
-        console.log(response?.toObject(), 'Heyy 22');
         setPlaceData({
           isLoading: false,
           ...placeData
