@@ -1,5 +1,5 @@
 // assets
-import {IconListCheck} from '@tabler/icons';
+import { IconListCheck } from '@tabler/icons';
 
 // constant
 const icons = {
@@ -26,6 +26,13 @@ const master = {
           title: 'Category',
           type: 'item',
           url: 'master/category',
+          target: false
+        },
+        {
+          id: 'master2',
+          title: 'Type',
+          type: 'item',
+          url: 'master/type',
           target: false
         }
       ]

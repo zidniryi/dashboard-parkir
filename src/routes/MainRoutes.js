@@ -47,6 +47,8 @@ const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 const MasterCategory = Loadable(lazy(() => import('views/master/MasterCategory')));
 const AddMasterCategory = Loadable(lazy(() => import('views/master/AddMasterCategory')));
 const EditMasterCategory = Loadable(lazy(() => import('views/master/EditMasterCategory')));
+const MasterType = Loadable(lazy(() => import('views/master/Mastertype')));
+const AddMasterType = Loadable(lazy(() => import('views/master/AddMasterType')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -302,6 +304,24 @@ const MainRoutes = {
         {
           path: 'edit-category',
           element: <EditMasterCategory />
+        }
+      ]
+    },
+    {
+      path: 'master',
+      children: [
+        {
+          path: 'type',
+          element: <MasterType />
+        }
+      ]
+    },
+    {
+      path: 'master',
+      children: [
+        {
+          path: 'add-type',
+          element: <AddMasterType />
         }
       ]
     }
