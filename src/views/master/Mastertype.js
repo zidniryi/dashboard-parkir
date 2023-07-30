@@ -159,7 +159,7 @@ const MasterType = () => {
                     </TableCell>
 
                     <TableCell>
-                      <Link to={'/master/edit-category'} state={{data: item}}>
+                      <Link to={'/master/edit-type'} state={{data: item}}>
                         <Button variant="contained" color="secondary" size="small">
                           Edit
                         </Button>

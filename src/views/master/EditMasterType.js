@@ -4,14 +4,14 @@ import {Link, useLocation, useNavigate} from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 import localKey from 'constant';
-import {CategoryEditRequest} from 'proto/webadmin_pb';
+import {TypeEditRequest} from 'proto/webadmin_pb';
 import {service} from 'proto/service';
 
-const EditMasterCategory = () => {
+const EditMasterType = () => {
   const location = useLocation();
   const dataPasing = location.state.data;
 
-  const [categoryData, setCategoryData] = useState({
+  const [typeData, setTypeData] = useState({
     name: dataPasing.name
   });
 
@@ -21,7 +21,7 @@ const EditMasterCategory = () => {
 
   const handleInputChange = (event) => {
     const {name, value} = event.target;
-    setCategoryData((prevData) => ({
+    setTypeData((prevData) => ({
       ...prevData,
       [name]: value
     }));
@@ -30,19 +30,19 @@ const EditMasterCategory = () => {
   const onSaveGateRpc = async () => {
     setisLoading(true);
     try {
-      const dataRpc = new CategoryEditRequest();
+      const dataRpc = new TypeEditRequest();
       dataRpc.setSessionid(localStorage.getItem(localKey.sessionid));
       dataRpc.setAdminid(localStorage.getItem(localKey.adminid));
-      dataRpc.setCategoryid(dataPasing.categoryid);
-      dataRpc.setName(categoryData.name);
+      dataRpc.setTypeid(dataPasing.typeid);
+      dataRpc.setName(typeData.name);
 
       dataRpc.setRemoteip(localStorage.getItem(localKey.remoteip));
 
-      return service.doCategoryEdit(dataRpc, null, (err, response) => {
+      return service.doTypeEdit(dataRpc, null, (err, response) => {
         const status = response?.toObject()?.status;
         setisLoading(false);
         if (status === '000') {
-          navigate('/master/category');
+          navigate('/master/type');
           setisError('');
         } else {
           Swal.fire({
@@ -67,21 +67,21 @@ const EditMasterCategory = () => {
   };
 
   // The rest of the code remains unchanged...
-  // (handleInputChange, onSavecategoryRpc, handleSubmit, onGetClientDataRpc, useEffect, etc.)
+  // (handleInputChange, onSavetypeRpc, handleSubmit, onGetClientDataRpc, useEffect, etc.)
 
   return (
     <div>
       <Card>
         <CardContent>
-          <h1>Edit Master Category</h1>
+          <h1>Edit Master Type</h1>
 
           <form onSubmit={handleSubmit}>
             {/* Replace the 'Name' input with the new field */}
-            <InputLabel id="demo-simple-select-label">Master Category Name</InputLabel>
+            <InputLabel id="demo-simple-select-label">Master Type Name</InputLabel>
             <TextField
-              label="Master Category Name"
+              label="Master Type Name"
               name="name" // Rename the name field to "name"
-              value={categoryData.name}
+              value={typeData.name}
               onChange={handleInputChange}
               required
               fullWidth
@@ -92,9 +92,9 @@ const EditMasterCategory = () => {
             {/* (Location, Access, Type inputs, etc.) */}
 
             <Button type="submit" disabled={isLoading} variant="contained" color="primary">
-              {isLoading ? 'Loading' : 'Edit Master Category'}
+              {isLoading ? 'Loading' : 'Edit Master Type'}
             </Button>
-            <Link to="/master/category">
+            <Link to="/master/type">
               <Button variant="contained" color="inherit">
                 Cancel
               </Button>
@@ -106,4 +106,4 @@ const EditMasterCategory = () => {
   );
 };
 
-export default EditMasterCategory;
+export default EditMasterType;
