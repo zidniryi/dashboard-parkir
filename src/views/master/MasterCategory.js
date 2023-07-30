@@ -141,7 +141,6 @@ const MasterCategory = () => {
                 <TableRow>
                   <TableCell>Category ID</TableCell>
                   <TableCell>Category Name</TableCell>
-                  <TableCell>Email</TableCell>
                   <TableCell>Is Active</TableCell>
                   <TableCell>Set Active</TableCell>
                   <TableCell>Edit</TableCell>
@@ -152,7 +151,6 @@ const MasterCategory = () => {
                   <TableRow key={item?.adminid}>
                     <TableCell>{item?.categoryid}</TableCell>
                     <TableCell>{item?.name}</TableCell>
-                    <TableCell>{item?.email}</TableCell>
                     <TableCell>
                       <Chip label={item?.isactive ? 'Y' : 'N'} color={item?.isactive ? 'primary' : 'error'} />
                     </TableCell>
