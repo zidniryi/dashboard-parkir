@@ -30,6 +30,8 @@ const Payment = Loadable(lazy(() => import('views/settings/payment/Payment')));
 const Officer = Loadable(lazy(() => import('views/settings/officer/Officer')));
 const AddOfficer = Loadable(lazy(() => import('views/settings/officer/AddOfficer')));
 const EditOfficer = Loadable(lazy(() => import('views/settings/officer/EditOfficer')));
+// Hardware
+const Hardware = Loadable(lazy(() => import('views/settings/hardware/Hardware')));
 
 // Clients
 const ListClient = Loadable(lazy(() => import('views/clients/list-clients/ListClient')));
@@ -211,6 +213,15 @@ const MainRoutes = {
         {
           path: 'edit-officer',
           element: <EditOfficer />
+        }
+      ]
+    },
+    {
+      path: 'settings',
+      children: [
+        {
+          path: 'hardware',
+          element: <Hardware />
         }
       ]
     },

@@ -28,32 +28,39 @@ const settings = {
           url: 'settings/parking-rates',
           target: false
         },
-        {
-          id: 'settings2',
-          title: 'Tarif Denda',
-          type: 'item',
-          url: 'settings/fine-rates',
-          target: false
-        },
-        {
-          id: 'settings3',
-          title: 'Membership',
-          type: 'item',
-          url: 'settings/membership',
-          target: false
-        },
-        {
-          id: 'settings4',
-          title: 'Payment',
-          type: 'item',
-          url: 'settings/payment',
-          target: false
-        },
+        // {
+        //   id: 'settings2',
+        //   title: 'Tarif Denda',
+        //   type: 'item',
+        //   url: 'settings/fine-rates',
+        //   target: false
+        // },
+        // {
+        //   id: 'settings3',
+        //   title: 'Membership',
+        //   type: 'item',
+        //   url: 'settings/membership',
+        //   target: false
+        // },
+        // {
+        //   id: 'settings4',
+        //   title: 'Payment',
+        //   type: 'item',
+        //   url: 'settings/payment',
+        //   target: false
+        // },
         {
           id: 'settings5',
           title: 'Petugas',
           type: 'item',
           url: 'settings/officer',
+          target: false
+        },
+        {
+          id: 'settings6',
+          title: 'Hardware',
+          type: 'item',
+          url: 'settings/hardware',
           target: false
         }
       ]
